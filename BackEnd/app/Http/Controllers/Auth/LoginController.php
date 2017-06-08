@@ -3,37 +3,30 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function oAuth()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $url = "https://github.com/login/oauth/authorize";
+        $url .= "?client_id=".$this->client_id;
+        $url .= "&state=".$this->randomString(32);
+
+        return redirect($url);
+    }
+
+    public function logout(Request $request)
+    {
+
+        $token = $request->header('authorization');
+        $result = DB::table('userToken')->where('token', $token)->delete();
+
+        if ($result) {
+            header('HTTP/1.1 200 ok');
+        } else {
+            header('HTTP/1.1 501 Not Implemented');
+        }
     }
 }

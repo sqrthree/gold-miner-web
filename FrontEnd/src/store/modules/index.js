@@ -1,9 +1,15 @@
 import loading from './loading'
-import user from './user'
+import users from './users'
 import articles from './articles'
+import applications from './applications'
+import notifications from './notifications'
+import categories from './categories'
 
 export default {
   loading,
-  user,
+  users,
   articles,
+  applications,
+  notifications,
+  categories,
 }

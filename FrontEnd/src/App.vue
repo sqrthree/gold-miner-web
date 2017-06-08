@@ -9,6 +9,8 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 
+const store = require('store')
+
 export default {
   name: 'app',
   data() {
@@ -17,32 +19,51 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
+    ...mapState(['users']),
+    user() {
+      return this.$store.getters.currentUser
+    },
   },
   methods: {
     ...mapMutations(['login']),
   },
   created() {
-    if (this.$route.query.login) {
-      // eslint-disable-next-line
-      window.__USER__ = JSON.stringify({
-        id: 1,
-        username: '根号三',
-        avatar: '/static/avatar.png',
-        rules: ['admin'],
-      })
-    }
+    let user = null
+    let isNewUser = false
 
     // eslint-disable-next-line
     if (window.__USER__) {
-      // eslint-disable-next-line
-      this.login(JSON.parse(window.__USER__))
+      try {
+        // eslint-disable-next-line
+        user = JSON.parse(decodeURIComponent(window.__USER__))
+        isNewUser = true
+      } catch (err) {
+        // eslint-disable-next-line
+        console.error(err)
+      }
+    } else {
+      user = store.get('user')
+    }
+
+    if (!user) return
+
+    this.login(user)
+
+    if (isNewUser) {
+      store.set('user', user)
+
+      if (user.istranslator) {
+        this.$router.replace('/')
+      } else {
+        this.$router.replace('/applications/apply')
+      }
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
+@import '~nprogress/nprogress.css';
 @import "~styles/exports";
 
 .navbar {

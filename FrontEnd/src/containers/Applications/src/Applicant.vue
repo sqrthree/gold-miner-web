@@ -1,31 +1,31 @@
 <template>
-  <div class="container joinus">
-    <!-- <el-breadcrumb class="breadcrumb">
+  <div class="container applications">
+    <el-breadcrumb class="breadcrumb">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/joinus/users' }">申请加入的用户列表</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: `/joinus/users/${id}` }">用户</el-breadcrumb-item>
-    </el-breadcrumb> -->
+      <el-breadcrumb-item :to="{ path: '/applications/applicants' }">申请加入的用户列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: `/applications/applicants/${applicantId}` }">新译者</el-breadcrumb-item>
+    </el-breadcrumb>
     <card title="申请成为译者">
       <section class="section">
         <h4 class="section__title">申请人信息</h4>
         <ul class="information clearfix">
-          <li class="information__item"><span class="information__label">申请时间：</span><strong class="information__value">2017-03-26</strong></li>
-          <li class="information__item"><span class="information__label">擅长的领域：</span><strong class="information__value">前端</strong></li>
-          <li class="information__item"><span class="information__label">翻译经验：</span><strong class="information__value">英语 8 级</strong></li>
+          <li class="information__item"><span class="information__label">申请时间：</span><strong class="information__value">{{ applicantInfo.cdate }}</strong></li>
+          <li class="information__item"><span class="information__label">擅长的领域：</span><strong class="information__value">{{ applicantInfo.major }}</strong></li>
+          <li class="information__item"><span class="information__label">翻译经验：</span><strong class="information__value">{{ applicantInfo.description }}</strong></li>
         </ul>
       </section>
       <hr>
       <section class="section">
         <h4 class="section__title">试译文本</h4>
-        <p class="text">The push for SVG icons over font icons has caught serious momentum in the web community. With an SVG icon system you can better meet accessibility standards, render higher quality visuals, and add/remove/modify icons in the library with ease. At Pivotal we’ve created an SVG icon system with React for use on our suite of products. This article is about my approach to styling the SVG icon system with CSS to make it easy and effective to use.The push for SVG icons over font icons has caught serious momentum in the web community. With an SVG icon system you can better meet accessibility standards.</p>
+        <p class="text">{{ applications.texts.data[applicantInfo.articleid] ? applications.texts.data[applicantInfo.articleid].content : '' }}</p>
       </section>
       <section class="section">
         <h4>译文</h4>
-        <p class="text">可将导航栏固定在左侧，提高导航可见性，方便页面之间切换；顶部可放置常用工具，如搜索条、帮助按钮、通知按钮等。适用于中后台的管理型、工具型网站。</p>
+        <p class="text">{{ applicantInfo.translation }}</p>
       </section>
       <section class="section">
         <h4 class="section__title">审核意见</h4>
-        <el-table class="opinions" v-if="opinions.length" :data="opinions" border>
+        <el-table class="opinions" v-if="applicantInfo.opinions && applicantInfo.opinions.length" :data="applicantInfo.opinions" border>
           <el-table-column prop="result" label="审核结果">
             <template scope="scope">
               <el-tag v-if="scope.row.result" type="success">通过</el-tag>
@@ -38,8 +38,8 @@
         </el-table>
         <div class="opinion-box">
           <el-input class="opinion" type="textarea" v-model="opinion" :rows="4"></el-input>
-          <el-button>通过</el-button>
-          <el-button>拒绝</el-button>
+          <el-button @click="submitOpinion(true)">通过</el-button>
+          <el-button @click="submitOpinion(false)">拒绝</el-button>
         </div>
         </el-form>
       </section>
@@ -48,42 +48,43 @@
 </template>
 
 <script>
-const mock = [
-  {
-    username: '王小虎',
-    opinion: '瞎胡点的',
-    result: true,
-    date: '2016-05-02',
-  },
-  {
-    username: '王小鹿',
-    opinion: '我也是瞎胡点的',
-    result: false,
-    date: '2016-05-02',
-  },
-]
+import { mapState } from 'vuex'
 
 export default {
-  name: 'JoinUsUser',
+  name: 'ApplicationUser',
   data() {
     return {
-      opinions: mock,
       opinion: '',
     }
   },
   computed: {
-    id() {
+    ...mapState(['applications']),
+    applicantId() {
       return this.$route.params.id
+    },
+    applicantInfo() {
+      return this.applications.applicants.data[this.applicantId] || {}
+    },
+  },
+  methods: {
+    submitOpinion(result) {
+      if (!result && !this.opinion) return this.$message({ message: '留一下意见了啦~', type: 'warning' })
+
+      return this.$store.dispatch('submitOpinion', {
+        id: this.applicantId,
+        result,
+        opinion: this.opinion,
+      })
     },
   },
   created() {
-    this.fetchData()
-  },
-  methods: {
-    fetchData() {
-      // eslint-disable-next-line
-      console.log('fetchData')
-    },
+    if (!this.applications.applicants.id.length) {
+      this.$store.dispatch('fetchApplicants')
+    }
+
+    if (!this.applications.texts.id.length) {
+      this.$store.dispatch('fetchTexts')
+    }
   },
 }
 </script>
@@ -91,8 +92,8 @@ export default {
 <style lang="scss" scoped>
 @import "~styles/exports";
 
-.joinus {
-  margin-top: 30px;
+.applications {
+  margin-top: 6px;
 }
 .information {
   padding-left: 0;

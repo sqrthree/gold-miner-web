@@ -3,10 +3,10 @@
     <li class="message__item" v-for="message in messages">
       <img class="message__avatar img-circle pull-left" src="/static/avatar.png" alt="">
       <div class="message__content">
-        <div class="message__title">{{ message.user.username + message.title }}</div>
+        <div class="message__title">{{ `${message.name} ${message.title}` }}</div>
         <div class="message__body">{{ message.body }}</div>
         <div class="message__footer">
-          <span class="message__date">{{ message.date }}</span>
+          <span class="message__date">{{ message.cdate }}</span>
           <router-link class="message__link pull-right" :to="message.link">去处理</router-link>
         </div>
       </div>

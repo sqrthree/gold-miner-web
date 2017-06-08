@@ -1,5 +1,7 @@
 # gold-miner-web
 
+[![Build Status](https://travis-ci.org/sqrthree/gold-miner-web.svg?branch=develop)](https://travis-ci.org/sqrthree/gold-miner-web)
+
 掘金翻译计划 web 端，正在开发阶段。
 
 ## Table

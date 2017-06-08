@@ -38,5 +38,6 @@ module.exports = {
     "semi": ["error", "never"],
     "no-param-reassign": "off",
     "no-shadow": "off",
+    "linebreak-style": "off"
   }
 }

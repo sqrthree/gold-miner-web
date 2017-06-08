@@ -43,9 +43,9 @@ const actions = {
         type: payload.type,
         data,
       })
-
-      // eslint-disable-next-line
-      console.log(context.state)
+    }).catch((err) => {
+      context.commit('hideLoading')
+      return Promise.reject(err.response.data)
     })
   },
 }
