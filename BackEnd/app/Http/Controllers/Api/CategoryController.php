@@ -42,7 +42,7 @@ class CategoryController extends Controller
     {
         //
         $this->isNotNull(array(
-                $request->input('category')
+                'category' => $request->input('category')
             ));
         $this->isUnique('category', array(
                 'category' => $request->input('category')
@@ -110,8 +110,8 @@ class CategoryController extends Controller
     {
         //
         $this->isNotNull(array(
-                $request->input('category'),
-                $request->input('description')
+                'category'      => $request->input('category'),
+                'description'   => $request->input('description')
             ));
         $this->isUpdateConflict('category', $id, array(
                 'category'      => $request->input('category'),

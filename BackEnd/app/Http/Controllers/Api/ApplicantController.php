@@ -51,10 +51,10 @@ class ApplicantController extends Controller
     {
         //
         $this->isNotNull(array(
-                $request->input("email"),
-                $request->input("major"),
-                $request->input("translation"),
-                $request->input("articleId"),
+                'email'         => $request->input("email"),
+                'major'         => $request->input("major"),
+                'translation'   => $request->input("translation"),
+                'articleId'     => $request->input("articleId")
             ));
 
         $this->checkEmail($request->input('email'));

@@ -29,10 +29,9 @@ class UserController extends Controller
         parse_str($this->sendRequest($aUrl, 'POST', $aParams), $token);
 
         if(!isset($token['access_token'])){
-            $this->ret['status']    = 500;
-            $this->ret['message']   = '获取 GitHb token 信息失败！';
-
-            return json_encode($this->ret);
+            header("HTTP/1.1 500 Service unavailable");
+            echo json_encode(['message' => '获取 GitHub token 失败！']);
+            return;
         }
         
         $uUrl = "https://api.github.com/user";
@@ -42,10 +41,9 @@ class UserController extends Controller
         $userInfo = json_decode($this->sendRequest($uUrl, 'GET', $uParams));
 
         if(!isset($userInfo->login)){
-            $this->ret['status']    = 500;
-            $this->ret['message']   = '获取用户信息失败：'.$userInfo->message;
-
-            return json_encode($this->ret);
+            header("HTTP/1.1 500 Service unavailable");
+            echo json_encode(['message' => '获取用户信息失败！']);
+            return;
         }
 
         $this->userInfo = $userInfo;
@@ -87,10 +85,9 @@ class UserController extends Controller
 
         $insertId = DB::table('user')->insertGetId($user);
         if($insertId == false){
-            $this->ret['status'] = 500;
-            $this->ret['message'] = '创建用户失败！';
-
-            return json_encode($this->ret);
+            header("HTTP/1.1 500 Service unavailable");
+            echo json_encode(['message' => '注册失败！']);
+            return;
         }
 
         $userInfo = array(
@@ -103,10 +100,9 @@ class UserController extends Controller
         $result = DB::table('userDetail')->insert($userInfo);
         
         if($result == false){
-            $this->ret['status'] = 500;
-            $this->ret['message'] = '添加用户详情失败！';
- 
-            return json_encode($this->ret);
+            header("HTTP/1.1 500 Service unavailable");
+            echo json_encode(['message' => '添加用户详情失败！']);
+            return;
         }
 
         return $insertId;
@@ -165,10 +161,9 @@ class UserController extends Controller
                     ->update($user);
 
         if($result === false){
-            $this->ret['status'] = 500;
-            $this->ret['message'] = '更新用户信息失败！';
-
-            return json_encode($this->ret);
+            header("HTTP/1.1 500 Service unavailable");
+            echo json_encode(['message' => '更新用户信息失败！']);
+            return;
         }
     }
 
@@ -190,18 +185,23 @@ class UserController extends Controller
      */
     public function loadUserById($userId)
     {
+        if (!is_numeric($userId)) {
+            header("HTTP/1.1 400 Bad request");
+            echo json_encode(['message' => '参数错误！']);
+            return;
+        }
+
         $userInfo = DB::table('user')
-                    ->join('userDetail', 'user.id', '=', 'userDetail.uid')
-                    ->join('userToken', 'user.id', '=', 'userToken.uid')
+                    ->leftjoin('userDetail', 'user.id', '=', 'userDetail.uid')
+                    ->leftjoin('userToken', 'user.id', '=', 'userToken.uid')
                     ->where('user.id', $userId)
                     ->select('user.*', 'userDetail.major', 'userDetail.bio', 'userToken.token')
                     ->first();
 
         if($userInfo == false){
-            $this->ret['status'] = 500;
-            $this->ret['message'] = '获取用户信息失败！';
-
-            return json_encode($this->ret);
+            header("HTTP/1.1 500 Service unavailable");
+            echo json_encode(['message' => '获取用户信息失败！']);
+            return;
         }
 
         return $userInfo;
@@ -238,10 +238,25 @@ class UserController extends Controller
         }
 
         if($result === false){
-            $this->ret['status'] = 500;
-            $this->ret['message'] = '更新 token 失败！';
+            header("HTTP/1.1 500 Service unavailable");
+            echo json_encode(['message' => '更新用户 token 失败！']);
+        }
+    }
 
-            return json_encode($this->ret);
+    /**
+     * 递增用户推荐文章数量
+     * @param  int  $uid    用户 ID
+     * @return void
+     */
+    public static function incrementRecommend($uid)
+    {
+        $result = DB::table('userDetail')
+                    ->where('uid', $uid)
+                    ->increment('recommend');
+
+        if ($result == false) {
+            header("HTTP/1.1 503 Service unavailable");
+            return;
         }
     }
 

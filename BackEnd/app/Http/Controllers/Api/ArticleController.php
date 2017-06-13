@@ -50,10 +50,10 @@ class ArticleController extends Controller
     {
         //
         $this->isNotNull(array(
-                $request->input('title'),
-                $request->input('category'),
-                $request->input('operator'),
-                $request->input('content')
+                'title'     => $request->input('title'),
+                'category'  => $request->input('category'),
+                'operator'  => $request->input('operator'),
+                'content'   => $request->input('content')
             ));
         $this->isUnique('article', array(
                 'title' => $request->input('title')
@@ -129,10 +129,10 @@ class ArticleController extends Controller
     {
         //
         $this->isNotNull(array(
-                $request->input('category'),
-                $request->input('title'),
-                $request->input('operator'),
-                $request->input('content')
+                'category'      => $request->input('category'),
+                'title'         => $request->input('title'),
+                'operator'      => $request->input('operator'),
+                'content'       => $request->input('content')
             ));
         $this->isUpdateConflict('article', $id, array(
                 'title' => $request->input('title')
