@@ -4,6 +4,7 @@ import articles from './articles'
 import applications from './applications'
 import notifications from './notifications'
 import categories from './categories'
+import recommends from './recommends'
 
 export default {
   loading,
@@ -12,4 +13,5 @@ export default {
   applications,
   notifications,
   categories,
+  recommends,
 }

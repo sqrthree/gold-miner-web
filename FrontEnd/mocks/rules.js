@@ -194,6 +194,22 @@ router.get('/articles', (req, res) => {
   res.json(data.articles)
 })
 
+router
+  .post('/recommends', (req, res) => {
+    return res.json({
+      "id": 6,
+      "category": 4,
+      "title": "PHP 最佳实践",
+      "url": "http://php.net",
+      "recommender": 1,
+      "status": 0,
+      "description": "PHP 最佳实践 100 例",
+      "udate": "2017-06-13 22:27:51",
+      "cdate": "2017-06-13 22:27:51",
+      "recommenderName": "Romeo0906"
+    })
+  })
+
 router.all('*', (req, res) => {
   res.status(404).json({ message: '404 Not found.' })
 })

@@ -4,7 +4,7 @@ import nprogress from 'nprogress'
 import { Message } from 'element-ui'
 
 import Index from '@/containers/Index'
-import Recommend from '@/containers/Recommend'
+import Recommends from '@/containers/Recommends'
 import Applications from '@/containers/Applications'
 import Auth from '@/containers/Auth'
 import Articles from '@/containers/Articles'
@@ -44,9 +44,9 @@ const router = new Router({
       },
     },
     {
-      path: '/recommend',
-      name: 'Recommend',
-      component: Recommend,
+      path: '/recommends',
+      name: 'Recommends',
+      component: Recommends,
       meta: {
         title: '推荐文章',
       },
