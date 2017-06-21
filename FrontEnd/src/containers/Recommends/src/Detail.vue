@@ -4,7 +4,7 @@
       <section class="section">
         <h4 class="section__title">文章信息</h4>
         <ul class="information clearfix">
-          <li class="information__item"><span class="information__label">推荐分类：</span><strong class="information__value">{{ recommend.category }}</strong></li>
+          <li class="information__item"><span class="information__label">推荐分类：</span><strong class="information__value">{{ categories.data[recommend.category] && categories.data[recommend.category].category }}</strong></li>
           <li class="information__item"><span class="information__label">文章链接：</span><strong class="information__value"><a :href="recommend.url">{{ recommend.title }}</a></strong></li>
           <li class="information__item"><span class="information__label">推荐时间：</span><strong class="information__value">{{ recommend.cdate }}</strong></li>
           <li class="information__item"><span class="information__label">推荐理由：</span><strong class="information__value">{{ recommend.description }}</strong></li>
@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['recommends']),
+    ...mapState(['recommends', 'categories']),
     recommend() {
       const { id } = this.$route.params
 
