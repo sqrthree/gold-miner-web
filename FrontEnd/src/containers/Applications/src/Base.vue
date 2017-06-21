@@ -1,12 +1,12 @@
 <template>
-  <div class="join-us container">
+  <div class="application container">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'JoinUsBase',
+  name: 'ApplyBase',
   data() {
     return {
     }

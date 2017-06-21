@@ -11,13 +11,7 @@
         </el-form-item>
         <el-form-item label="所属分类" required>
           <el-select v-model="form.category" placeholder="请选择文章所属的类别">
-            <el-option label="前端" value="frontent"></el-option>
-            <el-option label="后端" value="backend"></el-option>
-            <el-option label="Android" value="android"></el-option>
-            <el-option label="iOS" value="ios"></el-option>
-            <el-option label="设计" value="design"></el-option>
-            <el-option label="产品" value="product"></el-option>
-            <el-option label="其他" value="others"></el-option>
+            <el-option v-for="item in categories.id" :key="item" :label="categories.data[item].category" :value="item"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="文章介绍" required>
@@ -32,6 +26,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 export default {
   name: 'Recommend',
   data() {
@@ -44,9 +40,30 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapState(['categories']),
+    ...mapGetters(['currentUser']),
+  },
   methods: {
     onSubmit() {
+      const { url, title, category, description } = this.form
+
+      if (!url || !title || !category || !description) return
+
+      this.$store.dispatch('addRecommend', {
+        url,
+        title,
+        category,
+        description,
+        recommender: this.currentUser.id,
+      }).then(() => {
+        this.$message.success('推荐成功，非常感谢你的文章~')
+        this.$router.replace('/')
+      }).catch(err => this.$message.error(err.message))
     },
+  },
+  created() {
+    this.$store.dispatch('fetchCategories')
   },
 }
 </script>
