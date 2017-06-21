@@ -195,6 +195,24 @@ router.get('/articles', (req, res) => {
 })
 
 router
+  .get('/recommends', (req, res) => {
+    const results = mock({
+      'data|1-10': [{
+        "id|+1": 1,
+        "category": 3,
+        "title": "后端架构",
+        "url": "http://www.timaticweb2.com",
+        "recommender": 1,
+        "recommenderName": "Romeo0906",
+        "status": 0,
+        "description": "描述了服务端架构的一些技巧",
+        "udate": "2017-06-13 22:00:00",
+        "cdate": "2017-06-13 22:00:00",
+      }]
+    })
+
+    return res.json(results.data)
+  })
   .post('/recommends', (req, res) => {
     return res.json({
       "id": 6,
@@ -208,6 +226,9 @@ router
       "cdate": "2017-06-13 22:27:51",
       "recommenderName": "Romeo0906"
     })
+  })
+  .put('/recommends/result/:id/:result', (req, res) => {
+    return Math.random() > 0.5 ? res.sendStatus(200) : res.sendStatus(400)
   })
 
 router.all('*', (req, res) => {

@@ -1,3 +1,7 @@
-import Recommend from './src/Recommend'
+import New from './src/New'
+import Detail from './src/Detail'
 
-export default Recommend
+export default {
+  New,
+  Detail,
+}

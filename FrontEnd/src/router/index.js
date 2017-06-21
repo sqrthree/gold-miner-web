@@ -16,9 +16,17 @@ Vue.use(Router)
 
 const rules = {
   loginRequired() {
-    const logIn = store.getters.logIn || localStorage.get('user').token
+    if (store.getters.logIn) {
+      return true
+    }
 
-    return logIn ? true : '登录以后再来尝试吧'
+    const user = localStorage.get('user') || {}
+
+    if (user.token) {
+      return true
+    }
+
+    return '登录以后再来尝试吧'
   },
 
   adminRequired() {
@@ -46,9 +54,20 @@ const router = new Router({
     {
       path: '/recommends',
       name: 'Recommends',
-      component: Recommends,
+      component: Recommends.New,
       meta: {
         title: '推荐文章',
+      },
+    },
+    {
+      path: '/recommends/:id',
+      name: 'RecommendsDetail',
+      component: Recommends.Detail,
+      meta: {
+        title: '推荐文章详情',
+        rules: [
+          'loginRequired',
+        ],
       },
     },
     {
@@ -137,11 +156,6 @@ const router = new Router({
           path: ':id/details',
           name: 'ArticleDetail',
           component: Articles.Detail,
-        },
-        {
-          path: ':id/referrals',
-          name: 'ArticleReferrals',
-          component: Articles.Referrals,
         },
       ],
     },

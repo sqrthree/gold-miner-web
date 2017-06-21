@@ -7,3 +7,7 @@ export const fetchRecommends = function fetchRecommends() {
 export const addRecommend = function addRecommend(payload) {
   return axios.post('/api/recommends', payload)
 }
+
+export const submitOpinion = function submitOpinion(payload) {
+  return axios.put(`/api/recommends/result/${payload.id}/${payload.result}`, payload)
+}

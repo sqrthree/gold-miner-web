@@ -33,7 +33,7 @@ const actions = {
       }))
 
       response.data.recommends.map((item) => {
-        item.link = `/articles/${item.id}`
+        item.link = `/recommends/${item.id}`
 
         return item
       })
