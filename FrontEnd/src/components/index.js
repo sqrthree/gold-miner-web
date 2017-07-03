@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import Popover from './Popover'
 import Card from './Card'
+import RankingList from './RankingList'
 
 const components = [
   Article,
@@ -10,6 +11,7 @@ const components = [
   Footer,
   Popover,
   Card,
+  RankingList,
 ]
 
 const install = function install(Vue) {
