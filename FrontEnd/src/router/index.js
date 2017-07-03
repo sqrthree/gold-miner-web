@@ -8,6 +8,7 @@ import Recommends from '@/containers/Recommends'
 import Applications from '@/containers/Applications'
 import Auth from '@/containers/Auth'
 import Articles from '@/containers/Articles'
+import Users from '@/containers/Users'
 import store from '@/store'
 
 const localStorage = require('store')
@@ -156,6 +157,28 @@ const router = new Router({
           path: ':id/details',
           name: 'ArticleDetail',
           component: Articles.Detail,
+        },
+      ],
+    },
+    {
+      path: '/users',
+      component: Users.Base,
+      children: [
+        {
+          path: ':username',
+          name: 'UserProfile',
+          component: Users.Profile,
+          meta: {
+            title: '译者主页',
+          },
+        },
+        {
+          path: ':username/articles',
+          name: 'UserArticles',
+          component: Users.Articles,
+          meta: {
+            title: '译者的成就',
+          },
         },
       ],
     },
