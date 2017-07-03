@@ -57,14 +57,17 @@
     </el-row>
     <el-dialog title="我的设置" :visible.sync="settings.visible">
       <el-row>
-        <el-col :span="12" :offset="2">
-          <el-form :model="settings.values">
-            <el-form-item label="当有新的翻译任务时邮件通知我">
+        <el-col :span="12" :offset="6">
+          <el-form :model="settings.values" label-width="200px" label-position="left">
+            <el-form-item label="当有新的翻译任务时通知我">
               <el-switch v-model="settings.values.translate" on-text="" off-text=""></el-switch>
             </el-form-item>
-              <el-form-item label="当有新的校对任务时邮件通知我">
-                <el-switch v-model="settings.values.review" on-text="" off-text=""></el-switch>
-              </el-form-item>
+            <el-form-item label="当有新的校对任务时通知我">
+              <el-switch v-model="settings.values.review" on-text="" off-text=""></el-switch>
+            </el-form-item>
+            <el-form-item label="有新译文翻译好时通知我">
+              <el-switch v-model="settings.values.newArticle" on-text="" off-text=""></el-switch>
+            </el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -86,6 +89,7 @@ export default {
         values: {
           translate: true,
           review: true,
+          newArticle: true,
         },
       },
     }
