@@ -8,15 +8,24 @@ use App\Http\Controllers\Controller;
 
 class UserSettingController extends Controller
 {
+    public function show($id)
+    {
+        $userSetting = DB::table('usersetting')
+                        ->where('uid', $id)
+                        ->first();
+
+        echo json_encode($userSetting);
+    }
+
     /**
      * 获取用户设置内容
-     * @param  int $userId  用户 ID
-     * @return mixed        用户设置内容
+     * @param  int      $id  用户 ID
+     * @return mixed         用户设置内容
      */
-    public static function getUserSettings($userId)
+    public static function getUserSettings($id)
     {
         $result = DB::table('usersetting')
-                    ->where('uid', $userId)
+                    ->where('uid', $id)
                     ->first();
 
         return $result;
@@ -24,16 +33,16 @@ class UserSettingController extends Controller
     
     /**
      * 设置用户设置内容
-     * @param int $userId 用户 ID
+     * @param int $id 用户 ID
      */
-    public function setUserSettings(Request $request, $userId)
+    public function setUserSettings(Request $request, $id)
     {
     	$this->isNotNull(array(
     			'translation'	=> $request->input('translation'),
     			'article'		=> $request->input('article'),
     			'review'		=> $request->input('review'),
     			'result'		=> $request->input('result'),
-    			'userId'		=> $userId
+    			'id'		=> $id
     		));
 
     	$data = array(
@@ -45,7 +54,7 @@ class UserSettingController extends Controller
     		);
 
     	$res = DB::table('usersetting')
-    			->where('uid', $userId)
+    			->where('uid', $id)
     			->update($data);
 
         if($setting == false){
@@ -58,13 +67,13 @@ class UserSettingController extends Controller
 
     /**
      * 添加默认用户设置
-     * @param  int $userId 用户 ID
+     * @param  int $id 用户 ID
      * @return boolean
      */
-    public static function setDefaultSettings($userId)
+    public static function setDefaultSettings($id)
     {
         $data = array(
-                'uid'               => $userId,
+                'uid'               => $id,
                 'newtranslation'    => 1,
                 'newreview'         => 1,
                 'newarticle'        => 1,

@@ -7,19 +7,34 @@ Route::group(['prefix' => 'auth'], function () {
 
 // API 接口
 Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => 'token'], function () {
+	// 用户相关
 	Route::get('users', 'UserController@index');
-	Route::put('articles/status/{id}', 'ArticleController@updateStatus');
-	Route::put('recommends/result/{id}/{result}', 'RecommendController@result');
-	Route::post('UserSettings/{userId}', 'UserSettingController@setUserSettings');
-	Route::get('articles/random/{category}', 'ArticleController@getRandomArticle');
+	Route::get('users/{id}', 'UserController@show');
+	// 用户设置相关
+	Route::get('usersettings/{id}', 'UserSettingController@show');
+	Route::post('usersettings/{id}', 'UserSettingController@setUserSettings');
+	// 文章相关
+	Route::put('articles/status/{id}', 'ArticleController@toggleStatus');
+	Route::get('articles/random/{id}', 'ArticleController@getRandomArticle');
 	Route::resource('articles', 'ArticleController');
+	// 文章分类相关
 	Route::resource('categories', 'CategoryController');
+	// 申请译者相关
 	Route::resource('applicants', 'ApplicantController');
+	// 推荐文章相关
+	Route::put('recommends/result/{id}/{result}', 'RecommendController@result');
 	Route::resource('recommends', 'RecommendController');
+	// 翻译文章相关
+	Route::get('translations', 'TranslationController@index');
+	Route::post('translations', 'TranslationController@store');
+	Route::post('translations/pr', 'TranslationController@handlePR');
+	Route::post('translations/claim/review', 'TranslationController@claimReview');
+	Route::post('translations/claim/translation', 'TranslationController@claimTranslation');
+	// 获取通知相关
 	Route::resource('notifications', 'NotificationController');
 });
 
-// 匹配其他路由
+// 其他路由
 Route::any('{uri}', function($uri)
 {
 	return view('index', ['user'=>'']);

@@ -118,36 +118,32 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 获取单个用户信息
+     * @param  int      $id         用户 ID
+     * @return json_encode(object)  用户信息
      */
     public function show($id)
     {
         //
-    }
+        if (!is_numeric($id)) {
+            header("HTTP/1.1 400 Bad request");
+            echo json_encode(['message' => '参数错误！']);
+            return;
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $user = DB::table('user')
+                    ->leftjoin('userDetail', 'user.id', '=', 'userDetail.uid')
+                    ->where('user.id', $id)
+                    ->select('user.*', 'userDetail.translate as translateNumber', 'userDetail.review as reviewNumber', 'userDetail.recommend as recommendNumber', 'userDetail.totalScore', 'userDetail.currentScore', 'userDetail.appraisal', 'userDetail.major', 'userDetail.bio')
+                    ->first();
+
+        if($user == false){
+            header("HTTP/1.1 503 Service unavailable");
+            echo json_encode(['message' => '获取用户信息失败！']);
+            return;
+        }
+
+        echo json_encode($user);
     }
 
     /**
@@ -178,17 +174,6 @@ class UserController extends Controller
         if (USetting::getUserSettings($userId) == false) {
             USetting::setDefaultSettings($userId);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     /**

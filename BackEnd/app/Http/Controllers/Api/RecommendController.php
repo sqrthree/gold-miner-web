@@ -27,6 +27,7 @@ class RecommendController extends Controller
                         ->join('category', 'recommend.category', '=', 'category.id')
                         ->select('recommend.id', 'recommend.title', 'recommend.url', 'recommend.status', 'recommend.description', 'recommend.udate', 'recommend.cdate', 'user.id as userId', 'user.name as userName', 'user.email as userEmail', 'user.avatar as userAvatar', 'category.id as categoryId', 'category.category')
                         ->where('recommend.status', $request->has('status') ? intval($request->input('status')) : 0)
+                        ->orderBy('recommend.id', 'ASC')
                         ->skip($this->start)
                         ->take($this->offset)
                         ->get();
@@ -211,12 +212,17 @@ class RecommendController extends Controller
             $data['status'] = 2;
         }
 
-        $result = DB::table('recommend')
+        $res = DB::table('recommend')
                     ->where('id', $id)
                     ->update($data);
 
-        if ( $result == false ) {
+        if ( $res == false ) {
             header("HTTP/1.1 503 Service Unavailable");
+            echo json_encode(['message' => '更新推荐结果失败！']);
+            return;
+        }
+
+        if ( $data['status'] == 2) {
             return;
         }
 
@@ -225,6 +231,19 @@ class RecommendController extends Controller
                 ->value('recommender');
 
         UserController::incrementRecommend($uid);
+        $this->GMSNewArticle($id);
+    }
+
+    public function GMSNewArticle($rid)
+    {
+        $params = DB::table('recommend')
+                    ->join('category', 'recommend.category', '=', 'category.id')
+                    ->select('recommend.id as rid', 'recommend.url', 'category.category')
+                    ->where('recommend.id', $rid)
+                    ->first();
+
+        $url = '127.0.0.1:'.env('GITHUB_MICRO_SERVER_PORT');
+        $this->sendRequest($url, 'POST', (array) $params);
     }
 
 }

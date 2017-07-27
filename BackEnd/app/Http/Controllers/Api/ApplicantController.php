@@ -27,6 +27,7 @@ class ApplicantController extends Controller
                         ->leftjoin('user', 'applicant.uid', '=', 'user.id')
                         ->select('applicant.id', 'applicant.name', 'applicant.email', 'applicant.status', 'applicant.description', 'applicant.articleid as articleId', 'applicant.translation', 'applicant.udate', 'applicant.cdate', 'category.category as major', 'user.avatar as userAvatar', 'user.id as userId')
                         ->where('applicant.status', $request->has('status') ? intval($request->input('status')) : 0)
+                        ->orderBy('applicant.id', 'ASC')
                         ->skip($this->start)
                         ->take($this->offset)
                         ->get();

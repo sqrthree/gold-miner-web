@@ -181,7 +181,7 @@ class ArticleController extends Controller
      * @param  int  $id     文章 ID
      * @return json_encode(Array)
      */
-    public function updateStatus($id)
+    public function toggleStatus($id)
     {
         $currentStatus = DB::table('article')
                     ->where('id', $id)
@@ -212,14 +212,14 @@ class ArticleController extends Controller
     public function updateResult($id, $result = true)
     {
         if ( $result == true ) {
-            $category = 'passed';
+            $field = 'passed';
         } else {
-            $category = 'failed';
+            $field = 'failed';
         }
 
         $result = DB::table('article')
                     ->where('id', $id)
-                    ->increment($category);
+                    ->increment($field);
 
         if ( $result == false ) {
             header("HTTP/1.1 503 Service Unavailable");
@@ -229,13 +229,13 @@ class ArticleController extends Controller
 
     /**
      * 随机获取指定分类的某篇文章
-     * @param  int  $category   文章分类 ID（对应 category 表）
+     * @param  int      $id   文章分类 ID（对应 category 表）
      * @return json_encode(Object)
      */
-    public function getRandomArticle($category)
+    public function getRandomArticle($id)
     {
         $rules = array(
-                'category'  => $category,
+                'category'  => $id,
                 'isdel'     => 0,
                 'status'    => 1
             );
