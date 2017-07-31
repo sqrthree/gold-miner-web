@@ -30,8 +30,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target: 'http://localhost:8000',
-        target: 'http://fanyi.juejin.loc:8080/',
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
     },

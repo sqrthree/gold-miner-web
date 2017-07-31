@@ -153,25 +153,23 @@ router
 router.get('/translations', (req, res) => {
   const data = mock({
     'articles|10': [{
-      'id|+1': 1,
+      'id|+1': Math.ceil(Math.random()*100),
       title: '@ctitle',
       description: '@cparagraph',
       'category|1': ['前端', '后端', 'Android', 'iOS', '设计', '产品', '其他'],
-      author: {
+      translator: {
         'id|+1': 1,
-        username: '@cname',
+        name: '@cname',
         avatar: '/static/images/default-avatar.png',
       },
       'status|1': [
         0, // 等待翻译
         1, // 翻译中
         2, // 等待校对
-        4, // 校对中
-        5  // 已完成
+        3, // 校对中
+        4  // 已完成
       ],
-      meta: {
-        createdAt: '28 分钟前',
-      },
+      cdate: '28 分钟前',
     }],
   })
 
