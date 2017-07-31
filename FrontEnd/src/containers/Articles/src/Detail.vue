@@ -3,20 +3,20 @@
     <div class="article-detail__information">
       <article-item :article="article" :key="article.id">
         <div slot="meta" class="article__links article-detail__meta">
-          <a class="article__link" href="">原文链接</a>
-          <a class="article__link" href="">Markdown 文件</a>
+          <a class="article__link" :href="article.originalUrl">原文链接</a>
+          <a class="article__link" :href="`https://github.com/xitu/gold-miner/tree/master/TODO/${article.file}`">Markdown 文件</a>
         </div>
         <div slot="footer" class="article__tags">
-          <span class="article__tag">推荐于 2017-07-11</span>
-          <span class="article__tag">设计</span>
-          <span class="article__tag">翻译时间：10 天</span>
-          <span class="article__tag">校对时间：2 天</span>
-          <span class="article__tag">翻译积分：10</span>
-          <span class="article__tag">校对积分：10</span>
+          <span class="article__tag">推荐于 {{ article.cdate }}</span>
+          <span class="article__tag">{{ article.category }}</span>
+          <span class="article__tag">翻译时间：{{ article.tduration }} 天</span>
+          <span class="article__tag">校对时间：{{ article.rduration }} 天</span>
+          <span class="article__tag">翻译积分：{{ article.tscore }}</span>
+          <span class="article__tag">校对积分：{{ article.rscore }}</span>
         </div>
       </article-item>
       <div class="article-detail__toolbar clearfix">
-        <el-button class="pull-right" type="primary">认领翻译</el-button>
+        <el-button class="pull-right" type="primary" @click="handleClick" :loading="loading">{{ mapStatusToText(article.status) }}</el-button>
       </div>
     </div>
     <div class="timeline">
@@ -32,27 +32,83 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+import * as articleServices from '@/services/articles'
+
 export default {
   name: 'ArticleDetail',
   data() {
     return {
-      article: {
-        id: 1,
-        title: '带快算带快议花转万七党点安带快算',
-        description: '区叫强界和议花转万七党点安。音立过际度始事质还容知已。文电计相海王志一立地精将展实要。三图候五取音部具受适则门。',
-        category: 'iOS',
-        author: {
-          id: 1,
-          username: '根号三',
-          avatar: '/static/images/default-avatar.png',
-        },
-        status: 2,
-        meta: {
-          createdAt: '28 分钟前',
-        },
-      },
-      timeline: ['根号三 20 分钟前推荐', '根号三 19 分钟前认领翻译', '正在翻译中'],
+      article: {},
+      loading: false,
     }
+  },
+  computed: {
+    ...mapState(['articles']),
+    ...mapGetters(['currentUser']),
+    timeline() {
+      try {
+        return JSON.parse(this.article.timeline)
+      } catch (err) {
+        return []
+      }
+    },
+  },
+  methods: {
+    mapStatusToText(status) {
+      const texts = {
+        0: '认领翻译',
+        1: '正在翻译',
+        2: '认领校对',
+        3: '正在校对',
+        4: '阅读全文',
+      }
+
+      return texts[status]
+    },
+
+    handleClick() {
+      let action
+
+      if (this.article.status === 0) {
+        action = articleServices.claimTranslation({
+          id: this.article.id,
+          uid: this.currentUser.id,
+          username: this.currentUser.username,
+        })
+      } else if (this.article.status === 2) {
+        action = articleServices.claimReview({
+          id: this.article.id,
+          uid: this.currentUser.id,
+          username: this.currentUser.username,
+        })
+      } else {
+        return
+      }
+
+      this.loading = true
+
+      action.then(() => {
+        this.loading = false
+        this.$message.success('申请成功')
+      }).catch((err) => {
+        this.loading = false
+        this.$message.error(err.message)
+      })
+    },
+  },
+  created() {
+    const { id } = this.$route.params
+    const article = this.articles.data[id]
+
+    if (article) {
+      this.article = article
+      return
+    }
+
+    articleServices.fetchArticleWithId(id).then((data) => {
+      this.article = data
+    }).catch(err => this.$message.error(err.message))
   },
 }
 </script>

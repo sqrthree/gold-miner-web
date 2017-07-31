@@ -169,11 +169,114 @@ router.get('/translations', (req, res) => {
         3, // 校对中
         4  // 已完成
       ],
+      tscore: 6,
+      rscore: 3,
+      tduration: 3,
+      rduration: 1,
+      word: 1088,
+      timeline:"[{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u7ffb\\u8bd1\",\"time\":\"2017-07-23 23:04:08\"},{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:14:50\"},{\"user\":\"Romeo\",\"uid\":\"2\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:21:29\"}]",
       cdate: '28 分钟前',
     }],
   })
 
   res.json(data.articles)
+})
+
+
+router.get('/translations/:id', (req, res) => {
+  const { id } = req.params
+
+  const data = mock({
+    id,
+    title: '@ctitle',
+    description: '@cparagraph',
+    'category|1': ['前端', '后端', 'Android', 'iOS', '设计', '产品', '其他'],
+    translator: {
+      'id|+1': 1,
+      name: '@cname',
+      avatar: '/static/images/default-avatar.png',
+    },
+    'status|1': [
+      0, // 等待翻译
+      1, // 翻译中
+      2, // 等待校对
+      3, // 校对中
+      4  // 已完成
+    ],
+    tscore: 6,
+    rscore: 3,
+    tduration: 3,
+    rduration: 1,
+    word: 1088,
+    timeline:"[{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u7ffb\\u8bd1\",\"time\":\"2017-07-23 23:04:08\"},{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:14:50\"},{\"user\":\"Romeo\",\"uid\":\"2\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:21:29\"}]",
+    cdate: '28 分钟前',
+  })
+
+  res.json(data)
+})
+
+router.post('/translations/claim/translation', (req, res) => {
+  const { id } = req.body
+
+  const data = mock({
+    id,
+    title: '@ctitle',
+    description: '@cparagraph',
+    'category|1': ['前端', '后端', 'Android', 'iOS', '设计', '产品', '其他'],
+    translator: {
+      'id|+1': 1,
+      name: '@cname',
+      avatar: '/static/images/default-avatar.png',
+    },
+    'status|1': [
+      0, // 等待翻译
+      1, // 翻译中
+      2, // 等待校对
+      3, // 校对中
+      4  // 已完成
+    ],
+    tscore: 6,
+    rscore: 3,
+    tduration: 3,
+    rduration: 1,
+    word: 1088,
+    timeline:"[{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u7ffb\\u8bd1\",\"time\":\"2017-07-23 23:04:08\"},{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:14:50\"},{\"user\":\"Romeo\",\"uid\":\"2\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:21:29\"}]",
+    cdate: '28 分钟前',
+  })
+
+  res.json(data)
+})
+
+router.post('/translations/claim/review', (req, res) => {
+  const { id } = req.body
+
+  const data = mock({
+    id,
+    title: '@ctitle',
+    description: '@cparagraph',
+    'category|1': ['前端', '后端', 'Android', 'iOS', '设计', '产品', '其他'],
+    translator: {
+      'id|+1': 1,
+      name: '@cname',
+      avatar: '/static/images/default-avatar.png',
+    },
+    'status|1': [
+      0, // 等待翻译
+      1, // 翻译中
+      2, // 等待校对
+      3, // 校对中
+      4  // 已完成
+    ],
+    tscore: 6,
+    rscore: 3,
+    tduration: 3,
+    rduration: 1,
+    word: 1088,
+    timeline:"[{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u7ffb\\u8bd1\",\"time\":\"2017-07-23 23:04:08\"},{\"user\":\"Zijian\",\"uid\":\"1\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:14:50\"},{\"user\":\"Romeo\",\"uid\":\"2\",\"action\":\"\\u8ba4\\u9886\\u6821\\u5bf9\",\"time\":\"2017-07-23 23:21:29\"}]",
+    cdate: '28 分钟前',
+  })
+
+  res.json(data)
 })
 
 router
