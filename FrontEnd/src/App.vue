@@ -52,7 +52,7 @@ export default {
     if (isNewUser) {
       store.set('user', user)
 
-      if (user.istranslator) {
+      if (user.translator) {
         this.$router.replace('/')
       } else {
         this.$router.replace('/applications/apply')

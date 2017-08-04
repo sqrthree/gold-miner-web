@@ -51,7 +51,7 @@ export default {
   computed: {
     ...mapState(['articles']),
     activeTab() {
-      return this.$store.getters.currentUser.istranslator ? 'waiting' : 'lastest'
+      return this.$store.getters.currentUser.translator ? 'waiting' : 'lastest'
     },
   },
   beforeRouteLeave(to, from, next) {

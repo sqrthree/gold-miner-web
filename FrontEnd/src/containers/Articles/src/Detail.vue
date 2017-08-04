@@ -74,7 +74,7 @@ export default {
         return this.$message.error('请先登录再来认领吧~')
       }
 
-      if (!this.currentUser.istranslator) {
+      if (!this.currentUser.translator) {
         return this.$message.error('只有我们的译者才能认领任务哟，快来加入我们吧。')
       }
 

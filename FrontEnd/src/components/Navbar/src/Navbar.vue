@@ -12,7 +12,7 @@
           <!-- <el-menu-item index="topics">优秀专题</el-menu-item> -->
           <li class="pull-right">
             <template v-if="logIn">
-              <el-menu-item v-if="user.istranslator" index="recomment" :route="{ path: '/recommends' }">推荐文章</el-menu-item>
+              <el-menu-item v-if="user.translator" index="recomment" :route="{ path: '/recommends' }">推荐文章</el-menu-item>
               <el-menu-item v-else index="Apply" :route="{ path: '/applications/apply' }">加入我们</el-menu-item>
               <el-menu-item class="navbar__messages" index="">
                 <el-badge class="item" :value="totalOfNotifications" v-popover:popover>
@@ -67,7 +67,7 @@ export default {
     ]),
   },
   created() {
-    if (this.user.isadmin) {
+    if (this.user.admin) {
       this.fetchRecommends().catch(err => this.$message.error(err.message))
       this.fetchApplicants().catch(err => this.$message.error(err.message))
     }
