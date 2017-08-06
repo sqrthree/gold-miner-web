@@ -16,7 +16,8 @@
         </div>
       </article-item>
       <div class="article-detail__toolbar clearfix">
-        <el-button class="pull-right" type="primary" @click="handleClick" :loading="loading">{{ mapStatusToText(article.status) }}</el-button>
+        <el-button class="article-detail__toolbtn pull-right" type="primary" @click="claimTranslation" :loading="loading">{{ mapStatusToText(article.status) || '加载中' }}</el-button>
+        <el-button class="article-detail__toolbtn pull-right" @click="showDialog()" v-if="currentUser.admin">编辑</el-button>
       </div>
     </div>
     <div class="timeline">
@@ -28,11 +29,36 @@
         <timeline :data="timeline"></timeline>
       </div>
     </div>
+    <el-dialog title="编辑文章" :visible.sync="dialog.isVisible" @close="closeDialog()">
+      <el-form :model="dialog.data" label-width="140px">
+        <el-form-item label="掘金译文链接">
+          <el-input v-model="dialog.data.juejin"></el-input>
+        </el-form-item>
+        <el-form-item label="翻译时间">
+          <el-input-number v-model="dialog.data.tduration" :min="1"></el-input-number>
+        </el-form-item>
+        <el-form-item label="翻译积分">
+          <el-input-number v-model="dialog.data.tscore" :min="1"></el-input-number>
+        </el-form-item>
+        <el-form-item label="校对时间">
+          <el-input-number v-model="dialog.data.rduration" :min="1"></el-input-number>
+        </el-form-item>
+        <el-form-item label="校对积分">
+          <el-input-number v-model="dialog.data.rscore" :min="1"></el-input-number>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog()">取 消</el-button>
+        <el-button type="primary" @click="saveChange()" :loading="dialog.loading">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import pick from 'lodash/pick'
+import assign from 'lodash/assign'
 import * as articleServices from '@/services/articles'
 
 export default {
@@ -41,6 +67,17 @@ export default {
     return {
       article: {},
       loading: false,
+      dialog: {
+        isVisible: false,
+        loading: false,
+        data: {
+          juejin: '',
+          tduration: 1,
+          tscore: 1,
+          rduration: 1,
+          rscore: 1,
+        },
+      },
     }
   },
   computed: {
@@ -67,7 +104,38 @@ export default {
       return texts[status]
     },
 
-    handleClick() {
+    showDialog() {
+      this.dialog.isVisible = true
+
+      assign(this.dialog.data, pick(this.article, [
+        'juejin',
+        'tduration',
+        'tscore',
+        'rduration',
+        'rscore',
+      ]))
+    },
+
+    closeDialog() {
+      this.dialog.isVisible = false
+    },
+
+    saveChange() {
+      this.dialog.loading = true
+
+      articleServices.updateArticleWithId(this.article.id, this.dialog.data).then(() => {
+        this.dialog.loading = false
+        this.closeDialog()
+        assign(this.article, this.dialog.data)
+        return this.$message.success('更新成功')
+      }).catch((err) => {
+        this.dialog.loading = false
+        this.closeDialog()
+        return this.$message.error(err.message)
+      })
+    },
+
+    claimTranslation() {
       let action
 
       if (!this.currentUser.logIn) {
@@ -144,6 +212,10 @@ export default {
 
   &__toolbar {
     margin-top: 30px;
+  }
+
+  &__toolbtn {
+    margin-left: 10px;
   }
 }
 

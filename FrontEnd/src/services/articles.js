@@ -6,8 +6,12 @@ export const fetchArticles = function fetchArticles(options) {
   })
 }
 
-export const fetchArticleWithId = function fetchArticles(id) {
+export const fetchArticleWithId = function fetchArticleWithId(id) {
   return axios.get(`/api/translations/${id}`)
+}
+
+export const updateArticleWithId = function updateArticleWithId(id, data) {
+  return axios.post(`/api/translations/${id}`, data)
 }
 
 export const claimTranslation = function claimTranslation(options) {

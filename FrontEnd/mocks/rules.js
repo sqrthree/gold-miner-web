@@ -215,6 +215,10 @@ router.get('/translations/:id', (req, res) => {
   res.json(data)
 })
 
+router.post('/translations/:id', (req, res) => {
+  res.status(200).end()
+})
+
 router.post('/translations/claim/translation', (req, res) => {
   const { id } = req.body
 
