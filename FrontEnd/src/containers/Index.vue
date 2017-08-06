@@ -73,6 +73,8 @@ export default {
       this.fetchArticles({
         type: this.activeTab,
         page: page + 1,
+      }).catch((err) => {
+        this.$message.error(err.message)
       })
     },
   },
@@ -84,6 +86,9 @@ export default {
       page: 1,
     }).then(() => {
       this.loading = false
+    }).catch((err) => {
+      this.loading = false
+      this.$message.error(err.message)
     })
   },
 }
