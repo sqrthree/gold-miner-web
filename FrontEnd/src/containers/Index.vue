@@ -2,11 +2,11 @@
   <div class="container">
     <el-row class="main grid__row-gutter">
       <el-col class="grid__col-gutter" :span="18">
-        <el-tabs v-model="activeTab" v-loading="loading.status">
+        <el-tabs v-model="activeTab" v-loading="loading" @tab-click="toggleTab">
           <el-tab-pane v-for="tab in articlesTab" :label="tab.label" :name="tab.name" :key="tab.name">
-            <article-item v-for="item in articles[tab.name].data" :article="item" :key="item"></article-item>
+            <article-item v-for="item in articles[tab.name].list" :article="articles.data[item]" :key="item"></article-item>
             <div class="text-center load-more">
-              <a href="javascript:;">查看更多</a>
+              <a href="javascript:;" @click="nextPage()">查看更多</a>
               <div class="line"></div>
             </div>
           </el-tab-pane>
@@ -45,23 +45,51 @@ export default {
   data() {
     return {
       articlesTab,
+      loading: false,
     }
   },
   computed: {
-    ...mapState(['loading', 'articles']),
+    ...mapState(['articles']),
     activeTab() {
-      return this.$store.getters.currentUser.istranslator ? 'waiting' : 'lastest'
+      return this.$store.getters.currentUser.translator ? 'waiting' : 'lastest'
     },
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.commit('hideLoading')
     next()
   },
   methods: {
     ...mapActions(['fetchArticles']),
+
+    toggleTab(tab) {
+      this.fetchArticles({
+        type: tab.name,
+        page: 1,
+      })
+    },
+
+    nextPage() {
+      const { page } = this.articles[this.activeTab]
+
+      this.fetchArticles({
+        type: this.activeTab,
+        page: page + 1,
+      }).catch((err) => {
+        this.$message.error(err.message)
+      })
+    },
   },
   created() {
-    this.fetchArticles({ type: this.activeTab })
+    this.loading = true
+
+    this.fetchArticles({
+      type: this.activeTab,
+      page: 1,
+    }).then(() => {
+      this.loading = false
+    }).catch((err) => {
+      this.loading = false
+      this.$message.error(err.message)
+    })
   },
 }
 </script>

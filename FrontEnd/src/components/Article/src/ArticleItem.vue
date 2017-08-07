@@ -1,8 +1,8 @@
 <template>
   <div class="article__item clearfix">
-    <div class="article__author pull-left text-center" v-if="article.author">
-      <img class="img-responsive img-circle" :src="article.author.avatar" alt="">
-      <router-link class="article__author-username" :to="`/users/${article.author.id}`">{{ article.author.username }}</router-link>
+    <div class="article__author pull-left text-center" v-if="article.translator">
+      <img class="img-responsive img-circle" :src="article.translator.avatar" alt="">
+      <router-link class="article__author-username" :to="`/users/${article.translator.id}`">{{ article.translator.name }}</router-link>
     </div>
     <div class="article__cont">
       <h3 class="article__title">{{ article.title }}</h3>
@@ -12,11 +12,12 @@
         <slot name="footer">
           <div class="article__tags pull-left">
             <span class="article__tag">{{ article.category }}</span>
-            <span class="article__tag">{{ article.meta.createdAt }}</span>
+            <span class="article__tag">{{ article.cdate }}</span>
           </div>
           <div class="article__links pull-right">
-            <a class="article__link" href="https://juejin.im/articles/1">收藏该文章</a>
-            <router-link class="article__link" :to="`/articles/${article.id}`">阅读全文</router-link>
+            <router-link class="article__link" :to="article.status === 4 ? `/articles/${article.id}` : `/articles/${article.id}/details`">
+              {{ mapStatusToText(article.status) }}
+            </router-link>
           </div>
         </slot>
       </div>
@@ -27,6 +28,19 @@
 export default {
   name: 'articleItem',
   props: ['article'],
+  methods: {
+    mapStatusToText(status) {
+      const texts = {
+        0: '认领翻译',
+        1: '正在翻译',
+        2: '认领校对',
+        3: '正在校对',
+        4: '阅读全文',
+      }
+
+      return texts[status]
+    },
+  },
 }
 </script>
 

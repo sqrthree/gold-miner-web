@@ -1,9 +1,9 @@
 <template>
   <ul class="timeline timeline--theme-blue">
-    <li class="timeline__item" v-for="attr in data">
+    <li class="timeline__item" v-for="item in data">
       <div class="timeline__tail"></div>
       <div class="timeline__head"></div>
-      <div class="timeline__content">{{ attr }}</div>
+      <div class="timeline__content">{{ `${item.user} 于 ${item.time} ${item.action}` }}</div>
     </li>
   </ul>
 </template>
