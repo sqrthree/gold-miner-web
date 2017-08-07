@@ -231,10 +231,15 @@ class RecommendController extends Controller
                 ->value('recommender');
 
         UserController::incrementRecommend($uid);
-        $this->GMSNewArticle($id);
+        $this->retrieve($id);
     }
 
-    public function GMSNewArticle($rid)
+    /**
+     * 向 GitHub Micro Service 请求抓取文章
+     * @param  int $rid 推荐文章 ID
+     * @return boolean  
+     */
+    public function retrieve($rid)
     {
         $params = DB::table('recommend')
                     ->join('category', 'recommend.category', '=', 'category.id')

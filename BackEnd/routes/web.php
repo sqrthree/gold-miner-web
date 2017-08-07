@@ -25,9 +25,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => 'token'],
 	Route::put('recommends/result/{id}/{result}', 'RecommendController@result');
 	Route::resource('recommends', 'RecommendController');
 	// 翻译文章相关
-	Route::get('translations', 'TranslationController@index');
 	Route::post('translations', 'TranslationController@store');
+	Route::put('translations/{id}', 'TranslationController@update');
+	Route::patch('translations/{id}', 'TranslationController@post');
 	Route::post('translations/pr', 'TranslationController@handlePR');
+	Route::get('translations/show/{id}', 'TranslationController@show');
+	Route::get('translations/pull/{status}', 'TranslationController@index');
 	Route::post('translations/claim/review', 'TranslationController@claimReview');
 	Route::post('translations/claim/translation', 'TranslationController@claimTranslation');
 	// 获取通知相关
