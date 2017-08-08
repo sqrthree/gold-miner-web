@@ -31,8 +31,11 @@
     </div>
     <el-dialog title="编辑文章" :visible.sync="dialog.isVisible" @close="closeDialog()">
       <el-form :model="dialog.data" label-width="140px">
-        <el-form-item label="掘金译文链接">
-          <el-input v-model="dialog.data.juejin"></el-input>
+        <el-form-item label="文章封面">
+          <el-input v-model="dialog.data.poster"></el-input>
+        </el-form-item>
+        <el-form-item label="文章简介">
+          <el-input type="textarea" v-model="dialog.data.description"></el-input>
         </el-form-item>
         <el-form-item label="翻译时间">
           <el-input-number v-model="dialog.data.tduration" :min="1"></el-input-number>
@@ -45,6 +48,9 @@
         </el-form-item>
         <el-form-item label="校对积分">
           <el-input-number v-model="dialog.data.rscore" :min="1"></el-input-number>
+        </el-form-item>
+        <el-form-item label="文章单词量">
+          <el-input-number v-model="dialog.data.word" :min="0"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -71,11 +77,13 @@ export default {
         isVisible: false,
         loading: false,
         data: {
-          juejin: '',
+          poster: '',
+          description: '',
           tduration: 1,
           tscore: 1,
           rduration: 1,
           rscore: 1,
+          word: 0,
         },
       },
     }
@@ -108,11 +116,13 @@ export default {
       this.dialog.isVisible = true
 
       assign(this.dialog.data, pick(this.article, [
-        'juejin',
+        'poster',
+        'description',
         'tduration',
         'tscore',
         'rduration',
         'rscore',
+        'word',
       ]))
     },
 

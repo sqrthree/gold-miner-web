@@ -11,7 +11,7 @@ export const fetchArticleWithId = function fetchArticleWithId(id) {
 }
 
 export const updateArticleWithId = function updateArticleWithId(id, data) {
-  return axios.post(`/api/translations/${id}`, data)
+  return axios.put(`/api/translations/${id}`, data)
 }
 
 export const claimTranslation = function claimTranslation(options) {

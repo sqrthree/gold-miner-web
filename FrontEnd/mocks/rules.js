@@ -150,7 +150,7 @@ router
     })
   })
 
-router.get('/translations', (req, res) => {
+router.get('/translations/pull/:status', (req, res) => {
   const data = mock({
     'articles|10': [{
       'id|+1': Math.ceil(Math.random()*100),
@@ -215,7 +215,7 @@ router.get('/translations/:id', (req, res) => {
   res.json(data)
 })
 
-router.post('/translations/:id', (req, res) => {
+router.put('/translations/:id', (req, res) => {
   res.status(200).end()
 })
 

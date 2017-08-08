@@ -9,6 +9,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/api', rules)
 
-app.listen(8080, () => {
-  console.log('Mock server is running at http://localhost:8080')
+app.listen(3001, () => {
+  console.log('Mock server is running at http://localhost:3001')
 })
