@@ -15,7 +15,8 @@
             <span class="article__tag">{{ article.cdate }}</span>
           </div>
           <div class="article__links pull-right">
-            <router-link class="article__link" :to="article.status === 4 ? `/articles/${article.id}` : `/articles/${article.id}/details`">
+            <a class="article__link" v-if="article.status === 4" :href="article.link || `https://github.com/xitu/gold-miner/blob/master/TODO/${article.file}`" target="_blank">阅读全文</a>
+            <router-link class="article__link" v-else :to="`/articles/${article.id}/details`">
               {{ mapStatusToText(article.status) }}
             </router-link>
           </div>
@@ -35,7 +36,7 @@ export default {
         1: '正在翻译',
         2: '认领校对',
         3: '正在校对',
-        4: '阅读全文',
+        // 4: '阅读全文',
       }
 
       return texts[status]
