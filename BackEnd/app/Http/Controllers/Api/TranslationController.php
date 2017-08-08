@@ -147,7 +147,6 @@ class TranslationController extends Controller
         $this->isNotNull(array(
             "推荐 ID"  => $request->input('rid'),
             "文件名"   => $request->input('file'),
-            "封面图"   => $request->input('poster'),
             "翻译时间" => $request->input('tduration'),
             "校对时间" => $request->input('rduration'),
             "翻译积分" => $request->input('tscore'),
@@ -434,7 +433,7 @@ class TranslationController extends Controller
 
         $data =  array(
                 'reviewer1' => $reviewer1 ? $reviewer1 : $request->input('uid'),
-                'reviewer2' => $reviewer1 ? $request->input('uid') : '',
+                'reviewer2' => $reviewer1 ? $request->input('uid') : 0,
                 'status'    => $reviewer1 ? 3 : 2,
                 'udate'     => date('Y-m-d H:i:s')
             );

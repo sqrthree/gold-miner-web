@@ -16,7 +16,7 @@ class CheckToken
      */
     public function handle($request, Closure $next)
     {
-        if ($request->isMethod("get")) {
+        if ($request->isMethod("get") || $request->getClientIp() == "127.0.0.1") {
             return $next($request);
         }
 
