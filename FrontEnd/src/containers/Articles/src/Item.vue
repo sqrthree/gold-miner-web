@@ -2,8 +2,8 @@
   <div class="article__box">
     <div class="article__metacle clearfix">
       <div class="article__tags pull-left">
-        <span class="article__tag">iOS</span>
-        <span class="article__tag">2017-07-10</span>
+        <span class="article__tag">{{ this.article.category }}</span>
+        <span class="article__tag">{{ this.article.udate }}</span>
       </div>
       <div class="article__links pull-right">
         <a v-if="article.link" :href="article.link" class="article__link">去掘金收藏该文章</a>
@@ -11,7 +11,6 @@
       </div>
     </div>
     <div class="article__content">
-      <h1>文章正文内容</h1>
     </div>
     <el-dialog title="编辑文章" :visible.sync="dialog.isVisible" @close="closeDialog()">
       <el-form :model="dialog.data" label-width="140px">
