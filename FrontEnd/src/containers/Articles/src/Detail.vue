@@ -160,13 +160,11 @@ export default {
         action = articleServices.claimTranslation({
           id: this.article.id,
           uid: this.currentUser.id,
-          username: this.currentUser.username,
         })
       } else if (this.article.status === 2) {
         action = articleServices.claimReview({
           id: this.article.id,
           uid: this.currentUser.id,
-          username: this.currentUser.username,
         })
       } else {
         return null
