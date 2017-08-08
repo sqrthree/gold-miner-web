@@ -27,15 +27,15 @@ import { mapState, mapActions } from 'vuex'
 
 const articlesTab = [
   {
-    name: 'lastest',
+    name: 'posted',
     label: '最新译文',
   },
   {
-    name: 'waiting',
+    name: 'awaiting',
     label: '等待认领',
   },
   {
-    name: 'doing',
+    name: 'progressing',
     label: '正在进行',
   },
 ]
@@ -51,7 +51,7 @@ export default {
   computed: {
     ...mapState(['articles']),
     activeTab() {
-      return this.$store.getters.currentUser.translator ? 'waiting' : 'lastest'
+      return this.$store.getters.currentUser.translator ? 'awaiting' : 'posted'
     },
   },
   beforeRouteLeave(to, from, next) {

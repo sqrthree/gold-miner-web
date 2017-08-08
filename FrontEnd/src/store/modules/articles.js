@@ -4,15 +4,15 @@ import * as articles from '@/services/articles'
 
 const state = {
   data: {},
-  lastest: {
+  posted: {
     page: 0,
     list: [],
   },
-  waiting: {
+  awaiting: {
     page: 0,
     list: [],
   },
-  doing: {
+  progressing: {
     page: 0,
     list: [],
   },
@@ -46,8 +46,7 @@ const mutations = {
 
 const actions = {
   fetchArticles(context, payload) {
-    return articles.fetchArticles({
-      status: payload.type,
+    return articles.fetchArticles(payload.type, {
       page: payload.page,
       perpage: payload.perpage || 10,
     }).then((data) => {

@@ -1,7 +1,7 @@
 import axios from './axios'
 
-export const fetchArticles = function fetchArticles(options) {
-  return axios.get('/api/translations', {
+export const fetchArticles = function fetchArticles(status, options) {
+  return axios.get(`/api/translations/pull/${status}`, {
     params: options,
   })
 }
