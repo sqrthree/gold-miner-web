@@ -13,5 +13,15 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         //
+        "translations/pr"
     ];
+
+    public function handle($request, \Closure $next)
+    {
+    	if ($request->getClientIP() == "127.0.0.1") {
+            return $next($request);
+    	}
+
+    	parent::handle();
+    }
 }
