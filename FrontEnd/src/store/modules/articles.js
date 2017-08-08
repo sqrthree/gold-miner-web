@@ -4,18 +4,9 @@ import * as articles from '@/services/articles'
 
 const state = {
   data: {},
-  posted: {
-    page: 0,
-    list: [],
-  },
-  awaiting: {
-    page: 0,
-    list: [],
-  },
-  progressing: {
-    page: 0,
-    list: [],
-  },
+  posted: [],
+  awaiting: [],
+  progressing: [],
 }
 
 const getters = {
@@ -35,12 +26,10 @@ const mutations = {
     state.data = assign({}, state.data, data)
 
     if (payload.page === 1) {
-      state[payload.type].list = list
+      state[payload.type] = list
     } else {
-      state[payload.type].list = union(state[payload.type].list, list)
+      state[payload.type] = union(state[payload.type], list)
     }
-
-    state[payload.type].page = payload.page
   },
 }
 
@@ -55,6 +44,8 @@ const actions = {
         page: payload.page,
         data,
       })
+
+      return Promise.resolve(data)
     })
   },
 }

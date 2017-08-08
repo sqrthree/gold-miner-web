@@ -4,8 +4,11 @@
       <el-col class="grid__col-gutter" :span="18">
         <el-tabs v-model="activeTab" v-loading="loading" @tab-click="toggleTab">
           <el-tab-pane v-for="tab in articlesTab" :label="tab.label" :name="tab.name" :key="tab.name">
-            <article-item v-for="item in articles[tab.name].list" :article="articles.data[item]" :key="item"></article-item>
-            <div class="text-center load-more">
+            <article-item v-for="item in articles[tab.name]" :article="articles.data[item]" :key="item"></article-item>
+            <div class="text-center no-content" v-if="noContent">
+              <router-link to="/recommends">没有找到喜欢的文章？不如给我们推荐几篇吧~</router-link>
+            </div>
+            <div class="text-center load-more" v-if="showMoreBtn">
               <a href="javascript:;" @click="nextPage()">查看更多</a>
               <div class="line"></div>
             </div>
@@ -46,13 +49,14 @@ export default {
     return {
       articlesTab,
       loading: false,
+      activeTab: this.$store.getters.currentUser.translator ? 'awaiting' : 'posted',
+      page: 1,
+      noContent: false,
+      showMoreBtn: false,
     }
   },
   computed: {
     ...mapState(['articles']),
-    activeTab() {
-      return this.$store.getters.currentUser.translator ? 'awaiting' : 'posted'
-    },
   },
   beforeRouteLeave(to, from, next) {
     next()
@@ -60,35 +64,46 @@ export default {
   methods: {
     ...mapActions(['fetchArticles']),
 
-    toggleTab(tab) {
-      this.fetchArticles({
-        type: tab.name,
-        page: 1,
-      })
+    toggleTab() {
+      this.page = 1
+
+      this.renderArticles()
     },
 
     nextPage() {
-      const { page } = this.articles[this.activeTab]
+      this.page += 1
 
-      this.fetchArticles({
+      this.renderArticles()
+    },
+
+    renderArticles() {
+      return this.fetchArticles({
         type: this.activeTab,
-        page: page + 1,
+        page: this.page,
+      }).then((data) => {
+        if (data.length) {
+          this.showMoreBtn = true
+        } else {
+          this.showMoreBtn = false
+
+          this.noContent = (this.page === 1)
+        }
+
+        return Promise.resolve(data)
       }).catch((err) => {
         this.$message.error(err.message)
+
+        return Promise.reject(err)
       })
     },
   },
   created() {
     this.loading = true
 
-    this.fetchArticles({
-      type: this.activeTab,
-      page: 1,
-    }).then(() => {
+    this.renderArticles().then(() => {
       this.loading = false
-    }).catch((err) => {
+    }).catch(() => {
       this.loading = false
-      this.$message.error(err.message)
     })
   },
 }
@@ -127,6 +142,15 @@ export default {
     font-size: 14px;
     background-color: #fff;
     color: $silver-extra-light;
+  }
+}
+
+.no-content {
+  a {
+    display: block;
+    margin: 100px 0;
+    font-size: 16px;
+    color: $blue;
   }
 }
 
