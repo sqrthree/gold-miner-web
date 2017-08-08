@@ -10,8 +10,12 @@ export const fetchArticleWithId = function fetchArticleWithId(id) {
   return axios.get(`/api/translations/${id}`)
 }
 
-export const updateArticleWithId = function updateArticleWithId(id, data) {
-  return axios.put(`/api/translations/${id}`, data)
+export const updateArticleWithId = function updateArticleWithId(id, data, isAdmin) {
+  if (isAdmin) {
+    return axios.put(`/api/translations/${id}`, data)
+  }
+
+  return axios.patch(`/api/translations/${id}`, data)
 }
 
 export const claimTranslation = function claimTranslation(options) {

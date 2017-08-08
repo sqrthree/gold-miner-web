@@ -133,7 +133,7 @@ export default {
     saveChange() {
       this.dialog.loading = true
 
-      articleServices.updateArticleWithId(this.article.id, this.dialog.data).then(() => {
+      articleServices.updateArticleWithId(this.article.id, this.dialog.data, true).then(() => {
         this.dialog.loading = false
         this.closeDialog()
         assign(this.article, this.dialog.data)

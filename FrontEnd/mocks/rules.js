@@ -219,6 +219,10 @@ router.put('/translations/:id', (req, res) => {
   res.status(200).end()
 })
 
+router.patch('/translations/:id', (req, res) => {
+  res.status(200).end()
+})
+
 router.post('/translations/claim/translation', (req, res) => {
   const { id } = req.body
 
