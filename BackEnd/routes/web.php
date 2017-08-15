@@ -35,6 +35,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => 'token'],
 	Route::post('translations/claim/translation', 'TranslationController@claimTranslation');
 	// 获取通知相关
 	Route::resource('notifications', 'NotificationController');
+	// 排行榜相关
+	Route::get('statistics', 'StatisticController@index');
 });
 
 // 其他路由
