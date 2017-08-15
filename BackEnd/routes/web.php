@@ -37,6 +37,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => 'token'],
 	Route::resource('notifications', 'NotificationController');
 	// 排行榜相关
 	Route::get('statistics', 'StatisticController@index');
+	Route::get('statistics/overview', 'StatisticController@overview');
 });
 
 // 其他路由
