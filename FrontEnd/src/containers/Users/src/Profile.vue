@@ -5,7 +5,7 @@
         <div class="detail">
           <div class="detail__header">
             <div class="detail__divider"></div>
-            <a class="detail__extra" href="javascript:;">和大神聊聊</a>
+            <a class="detail__extra" :href="`mailto:${currentUser.email}`">和大神聊聊</a>
             <strong class="detail__title">译者档案馆</strong>
           </div>
           <div class="detail__body">
@@ -14,7 +14,7 @@
                 <ul class="document">
                   <li class="document__item">
                     <strong class="document__label">加入日期</strong>
-                    <span class="document__text">2017 年 1 月 21 日</span>
+                    <span class="document__text">{{ currentUser.cdate }}</span>
                   </li>
                 </ul>
               </el-col>
