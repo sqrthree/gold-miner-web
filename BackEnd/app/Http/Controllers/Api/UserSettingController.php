@@ -30,7 +30,7 @@ class UserSettingController extends Controller
 
         return $result;
     }
-    
+
     /**
      * 设置用户设置内容
      * @param int $id 用户 ID
@@ -38,18 +38,18 @@ class UserSettingController extends Controller
     public function setUserSettings(Request $request, $id)
     {
     	$this->isNotNull(array(
-    			'translation'	=> $request->input('translation'),
-    			'article'		=> $request->input('article'),
-    			'review'		=> $request->input('review'),
-    			'result'		=> $request->input('result'),
-    			'id'		=> $id
+          'newtranslation'  => $request->input('newtranslation'),
+          'newarticle'      => $request->input('newarticle'),
+          'newreview'       => $request->input('newreview'),
+          'newresult'       => $request->input('newresult'),
+          'id'              => $id
     		));
 
     	$data = array(
-                'newtranslation'    => $request->input('translation'),
-                'newarticle'        => $request->input('article'),
-                'newreview'         => $request->input('review'),
-                'newresult'         => $request->input('result'),
+                'newtranslation'    => $request->input('newtranslation'),
+                'newarticle'        => $request->input('newarticle'),
+                'newreview'         => $request->input('newreview'),
+                'newresult'         => $request->input('newresult'),
                 'udate'             => date("Y-m-d H:i:s")
     		);
 
