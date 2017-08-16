@@ -22,15 +22,23 @@
                 <ul class="document">
                   <li class="document__item">
                     <strong class="document__label">翻译文章</strong>
-                    <span class="document__text"><router-link :to="'/users/sqrthree/articles'">281</router-link> 篇</span>
+                    <span class="document__text"><router-link :to="'/users/sqrthree/articles'">{{ currentUser.translateNumber }}</router-link> 篇</span>
                   </li>
                   <li class="document__item">
                     <strong class="document__label">参与校对</strong>
-                    <span class="document__text"><router-link :to="'/users/sqrthree/articles'">281</router-link> 篇</span>
+                    <span class="document__text"><router-link :to="'/users/sqrthree/articles'">{{ currentUser.reviewNumber }}</router-link> 篇</span>
                   </li>
                   <li class="document__item">
                     <strong class="document__label">推荐文章</strong>
-                    <span class="document__text"><router-link :to="'/users/sqrthree/articles'">281</router-link> 篇</span>
+                    <span class="document__text"><router-link :to="'/users/sqrthree/articles'">{{ currentUser.recommendNumber }}</router-link> 篇</span>
+                  </li>
+                  <li class="document__item">
+                    <strong class="document__label">总获积分</strong>
+                    <span class="document__text">{{ currentUser.totalScore }}</span>
+                  </li>
+                  <li class="document__item">
+                    <strong class="document__label">当前积分</strong>
+                    <span class="document__text">{{ currentUser.currentScore }}</span>
                   </li>
                 </ul>
               </el-col>
@@ -134,6 +142,7 @@ export default {
       })
     },
     closeSettingsDialog() {
+      this.settings.loading = false
       this.settings.visible = false
       window.location.hash = ''
     },
@@ -146,9 +155,8 @@ export default {
         newarticle: this.settings.values.newarticle,
         newresult: this.settings.values.newresult,
       }).then(() => {
-        this.settings.visible = false
-        this.settings.loading = false
         this.$message.success('保存成功。')
+        this.closeSettingsDialog()
       }).catch((err) => {
         this.$message.error(err.message)
         this.settings.loading = false

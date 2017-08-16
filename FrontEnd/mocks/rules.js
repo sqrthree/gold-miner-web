@@ -325,6 +325,30 @@ router
   })
 
 router
+  .get('/users/:id', (req, res) => {
+    return res.json({
+     "id":1,
+     "name":"Romeo0906",
+     "email":"romeo0906@foxmail.com",
+     "avatar":"https:\/\/avatars1.githubusercontent.com\/u\/22153498?v=3",
+     "status":1,
+     "advance":0,
+     "admin":1,
+     "translator":1,
+     "udate":"2017-07-05 22:31:35",
+     "cdate":"2017-06-13 21:33:42",
+     "translateNumber":0,
+     "reviewNumber":0,
+     "recommendNumber":7,
+     "totalScore":0,
+     "currentScore":0,
+     "appraisal":0,
+     "major":null,
+     "bio":"No bug no gain"
+    })
+  })
+
+router
   .get('/UserSettings/:id', (req, res) => {
     return res.json({
       "id":1,

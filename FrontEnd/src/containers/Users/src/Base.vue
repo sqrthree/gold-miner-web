@@ -1,17 +1,22 @@
 <template>
   <div class="container">
     <div class="user-info">
-      <div class="user-info__avatar"><img src="/static/images/avatar.png" alt=""></div>
-      <h3>根号三</h3>
-      <p class="user-info__bio">Full-Stack Developer</p>
+      <div class="user-info__avatar"><img :src="currentUser.avatar" alt=""></div>
+      <h3>{{ currentUser.name }}</h3>
+      <p class="user-info__bio">{{ currentUser.bio }}</p>
     </div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'UserBase',
+  computed: {
+    ...mapGetters(['currentUser']),
+  },
 }
 </script>
 
