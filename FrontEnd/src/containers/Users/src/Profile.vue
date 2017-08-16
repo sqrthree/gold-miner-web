@@ -56,30 +56,34 @@
       </el-col>
     </el-row>
     <el-dialog title="我的设置" :visible.sync="settings.visible" @close="closeSettingsDialog()">
-      <el-row>
+      <el-row v-loading.body="settings.loading">
         <el-col :span="12" :offset="6">
           <el-form :model="settings.values" label-width="200px" label-position="left">
             <el-form-item label="当有新的翻译任务时通知我">
-              <el-switch v-model="settings.values.translate" on-text="" off-text=""></el-switch>
+              <el-switch v-model="settings.values.newtranslation" on-text="" off-text="" :on-value="1" :off-value="0"></el-switch>
             </el-form-item>
             <el-form-item label="当有新的校对任务时通知我">
-              <el-switch v-model="settings.values.review" on-text="" off-text=""></el-switch>
+              <el-switch v-model="settings.values.newreview" on-text="" off-text="" :on-value="1" :off-value="0"></el-switch>
             </el-form-item>
             <el-form-item label="有新译文翻译好时通知我">
-              <el-switch v-model="settings.values.newArticle" on-text="" off-text=""></el-switch>
+              <el-switch v-model="settings.values.newarticle" on-text="" off-text="" :on-value="1" :off-value="0"></el-switch>
             </el-form-item>
           </el-form>
         </el-col>
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeSettingsDialog()">取 消</el-button>
-        <el-button type="primary" @click="closeSettingsDialog()">确 定</el-button>
+        <el-button type="primary" @click="saveSettings()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import assign from 'lodash/assign'
+import * as userService from '@/services/users'
+
 export default {
   name: 'Profile',
   beforeRouteEnter(to, from, next) {
@@ -99,22 +103,51 @@ export default {
   data() {
     return {
       settings: {
+        loading: false,
         visible: false,
         values: {
-          translate: true,
-          review: true,
-          newArticle: true,
+          newtranslation: 1,
+          newreview: 1,
+          newarticle: 1,
         },
       },
     }
   },
+  computed: {
+    ...mapGetters(['currentUser']),
+  },
   methods: {
     showSettingsDialog() {
       this.settings.visible = true
+      this.settings.loading = true
+
+      userService.fetchSettings(this.currentUser.id).then((data) => {
+        assign(this.settings.values, data)
+        this.settings.loading = false
+      }).catch((err) => {
+        this.$message.error(err.message)
+        this.settings.loading = false
+      })
     },
     closeSettingsDialog() {
       this.settings.visible = false
       window.location.hash = ''
+    },
+    saveSettings() {
+      this.settings.loading = true
+
+      userService.updateSettings(this.currentUser.id, {
+        newtranslation: this.settings.values.newtranslation,
+        newreview: this.settings.values.newreview,
+        newarticle: this.settings.values.newarticle,
+      }).then(() => {
+        this.settings.visible = false
+        this.settings.loading = false
+        this.$message.success('保存成功。')
+      }).catch((err) => {
+        this.$message.error(err.message)
+        this.settings.loading = false
+      })
     },
   },
 }

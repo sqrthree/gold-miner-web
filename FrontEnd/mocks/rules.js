@@ -324,6 +324,23 @@ router
     return Math.random() > 0.5 ? res.sendStatus(200) : res.sendStatus(400)
   })
 
+router
+  .get('/UserSettings/:id', (req, res) => {
+    return res.json({
+      "id":1,
+      "uid":1,
+      "newtranslation":1,
+      "newreview":0,
+      "newarticle":1,
+      "newresult":1,
+      "udate":"2017-07-11 23:06:58",
+      "cdate":"2017-07-11 23:06:58"
+    })
+  })
+  .post('/UserSettings/:id', (req, res) => {
+    return res.sendStatus(200)
+  })
+
 router.all('*', (req, res) => {
   res.status(404).json({ message: '404 Not found.' })
 })
