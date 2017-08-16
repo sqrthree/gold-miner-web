@@ -68,6 +68,9 @@
             <el-form-item label="有新译文翻译好时通知我">
               <el-switch v-model="settings.values.newarticle" on-text="" off-text="" :on-value="1" :off-value="0"></el-switch>
             </el-form-item>
+            <el-form-item label="推荐的文章有结果时通知我">
+              <el-switch v-model="settings.values.newresult" on-text="" off-text="" :on-value="1" :off-value="0"></el-switch>
+            </el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -109,6 +112,7 @@ export default {
           newtranslation: 1,
           newreview: 1,
           newarticle: 1,
+          newresult: 1,
         },
       },
     }
@@ -140,6 +144,7 @@ export default {
         newtranslation: this.settings.values.newtranslation,
         newreview: this.settings.values.newreview,
         newarticle: this.settings.values.newarticle,
+        newresult: this.settings.values.newresult,
       }).then(() => {
         this.settings.visible = false
         this.settings.loading = false
