@@ -1,21 +1,33 @@
 <template>
   <div class="container">
     <div class="user-info">
-      <div class="user-info__avatar"><img :src="currentUser.avatar" alt=""></div>
-      <h3>{{ currentUser.name }}</h3>
-      <p class="user-info__bio">{{ currentUser.bio }}</p>
+      <div class="user-info__avatar"><img :src="user.avatar" alt=""></div>
+      <h3>{{ user.name }}</h3>
+      <p class="user-info__bio">{{ user.bio }}</p>
     </div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'UserBase',
   computed: {
-    ...mapGetters(['currentUser']),
+    ...mapState(['users']),
+    user() {
+      const { id } = this.$route.params
+      return this.users.data[id] || {}
+    },
+  },
+  methods: {
+    ...mapActions(['fetchUserInfo']),
+  },
+  created() {
+    const { id } = this.$route.params
+
+    this.fetchUserInfo(id).catch(err => this.$message.error(err.message))
   },
 }
 </script>

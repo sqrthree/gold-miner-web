@@ -166,7 +166,7 @@ const router = new Router({
       component: Users.Base,
       children: [
         {
-          path: ':username',
+          path: ':id',
           name: 'UserProfile',
           component: Users.Profile,
           meta: {
@@ -174,7 +174,7 @@ const router = new Router({
           },
         },
         {
-          path: ':username/articles',
+          path: ':id/articles',
           name: 'UserArticles',
           component: Users.Articles,
           meta: {
