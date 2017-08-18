@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
+/**
+ * Statistics job
+ *
+ * Class StatisticController
+ * @package App\Http\Controllers\Api
+ */
 class StatisticController extends Controller
 {
-    //
+    /**
+     * 获取排行榜数据
+     */
     public function index()
     {
         $result = array();
@@ -19,6 +27,10 @@ class StatisticController extends Controller
         echo json_encode($result);
     }
 
+    /**
+     * 获取推荐文章排行榜
+     * @return array
+     */
     public function recommend()
     {
         $result = array();
@@ -30,6 +42,10 @@ class StatisticController extends Controller
         return $result;
     }
 
+    /**
+     * 获取翻译文章排行榜
+     * @return array
+     */
     public function translate()
     {
         $result = array();
@@ -41,6 +57,10 @@ class StatisticController extends Controller
         return $result;
     }
 
+    /**
+     * 获取校对文章排行榜
+     * @return array
+     */
     public function review()
     {
         $result = array();
@@ -52,30 +72,63 @@ class StatisticController extends Controller
         return $result;
     }
 
+    /**
+     * 获取指定类别的上周排行
+     * @param $field
+     * @return mixed
+     */
     public function week($field)
     {
-        $time = strtotime("-1 week");
-        $sql = "SELECT user.id, user.name, user.avatar, COUNT(timeline.uid) AS num FROM timeline, user WHERE timeline.uid = user.id AND timeline.cdate > {$time} AND timeline.operation = '{$field}' GROUP BY user.id, user.name, user.avatar ORDER BY num DESC LIMIT 20";
-
-    	return DB::select($sql);
+    	return DB::table('timeline')
+                ->join('user', 'timeline.uid', '=', 'user.id')
+                ->select(DB::raw("user.id, user.name, user.avatar, COUNT(timeline.uid) AS num"))
+                ->where("timeline.cdate", ">", strtotime("-1 week"))
+                ->where("timeline.operation", $field)
+                ->groupBy("user.id", "user.name", "user.avatar")
+                ->orderBy("num", "DESC")
+                ->limit(20)
+                ->get();
     }
 
+    /**
+     * 获取指定类别的上月排行
+     * @param $field
+     * @return mixed
+     */
     public function month($field)
     {
-        $time = strtotime("-1 month");
-        $sql = "SELECT user.id, user.name, user.avatar, COUNT(timeline.uid) AS num FROM timeline, user WHERE timeline.uid = user.id AND timeline.cdate > {$time} AND timeline.operation = '{$field}' GROUP BY user.id, user.name, user.avatar ORDER BY num DESC LIMIT 20";
-        
-        return DB::select($sql);
+        return DB::table('timeline')
+            ->join('user', 'timeline.uid', '=', 'user.id')
+            ->select(DB::raw("user.id, user.name, user.avatar, COUNT(timeline.uid) AS num"))
+            ->where("timeline.cdate", ">", strtotime("-1 month"))
+            ->where("timeline.operation", $field)
+            ->groupBy("user.id", "user.name", "user.avatar")
+            ->orderBy("num", "DESC")
+            ->limit(20)
+            ->get();
     }
 
+    /**
+     * 获取指定类别的上年排行
+     * @param $field
+     * @return mixed
+     */
     public function year($field)
     {
-        $time = strtotime("-1 year");
-        $sql = "SELECT user.id, user.name, user.avatar, COUNT(timeline.uid) AS num FROM timeline, user WHERE timeline.uid = user.id AND timeline.cdate > {$time} AND timeline.operation = '{$field}' GROUP BY user.id, user.name, user.avatar ORDER BY num DESC LIMIT 20";
-        
-        return DB::select($sql);
+        return DB::table('timeline')
+            ->join('user', 'timeline.uid', '=', 'user.id')
+            ->select(DB::raw("user.id, user.name, user.avatar, COUNT(timeline.uid) AS num"))
+            ->where("timeline.cdate", ">", strtotime("-1 year"))
+            ->where("timeline.operation", $field)
+            ->groupBy("user.id", "user.name", "user.avatar")
+            ->orderBy("num", "DESC")
+            ->limit(20)
+            ->get();
     }
 
+    /**
+     * 获取全站统计数字概览
+     */
     public function overview()
     {
         $result = array();
@@ -86,6 +139,10 @@ class StatisticController extends Controller
         echo json_encode($result);
     }
 
+    /**
+     * 获取全站译者数目
+     * @return mixed
+     */
     public function translator()
     {
         return DB::table('user')
@@ -93,12 +150,20 @@ class StatisticController extends Controller
                 ->count('id');
     }
 
+    /**
+     * 获取全站词汇数目
+     * @return mixed
+     */
     public function word()
     {
         return DB::table('translation')
                 ->sum('word');
     }
 
+    /**
+     * 获取全站文章数目
+     * @return mixed
+     */
     public function article()
     {
         return DB::table('translation')
