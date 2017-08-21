@@ -324,6 +324,32 @@ router
     return Math.random() > 0.5 ? res.sendStatus(200) : res.sendStatus(400)
   })
 
+router.get('/statistics', (req, res) => {
+  const temp = {
+    id: '@id',
+    name: '@first',
+    'num|1-100': 1
+  }
+
+  return res.json(mock({
+    recommend: {
+      'month|10': [ temp ],
+      'year|10': [ temp ],
+      'total|10': [ temp ],
+    },
+    translate: {
+      'month|10': [ temp ],
+      'year|10': [ temp ],
+      'total|10': [ temp ],
+    },
+    review: {
+      'month|10': [ temp ],
+      'year|10': [ temp ],
+      'total|10': [ temp ],
+    }
+  }))
+})
+
 router.all('*', (req, res) => {
   res.status(404).json({ message: '404 Not found.' })
 })

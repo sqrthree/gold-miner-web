@@ -18,8 +18,8 @@
       <li class="footer__item">
         <h2 class="footer__title">Copyright © 2017 掘金</h2>
         <div class="footer__body"><span>掘金翻译计划出品 · 社区驱动</span></div>
-        <div class="footer__body"><a href="https://github.com/sqrthree">根号三</a><span> - </span><span>核心开发者</span></div>
         <div class="footer__body"><a href="https://github.com/Romeo0906">王子建</a><span> - </span><span>核心开发者</span></div>
+        <div class="footer__body"><a href="https://github.com/sqrthree">根号三</a><span> - </span><span>核心开发者</span></div>
       </li>
     </ul>
   </footer>

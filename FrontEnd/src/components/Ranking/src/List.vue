@@ -8,8 +8,9 @@
         </tr>
       </thead>
       <tbody class="ranking__body">
-        <tr class="ranking__item" v-for="item, index in data">
-          <td :class="index < 3 ? 'ranking__item-td ranking-highlight' : 'ranking__item-td'" v-for="config in columnConfig">{{ item[config.prop] }}</td>
+        <tr class="ranking__empty" v-if="!data || !data.length"><td colspan="3">暂无数据</td></tr>
+        <tr class="ranking__item" v-else v-for="item, index in data">
+          <td :class="index < 3 ? 'ranking__item-td ranking-highlight' : 'ranking__item-td'" v-for="config in columnConfig">{{ config.prop === 'index' ? item[config.prop] || index + 1 : item[config.prop] }}</td>
         </tr>
       </tbody>
     </table>
@@ -69,6 +70,12 @@ export default {
     .ranking__item-td {
       border-bottom: none;
     }
+  }
+
+  &__empty {
+    height: 330px;
+    text-align: center;
+    color: $silver;
   }
 }
 </style>
