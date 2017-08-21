@@ -10,7 +10,7 @@ class UserSettingController extends Controller
 {
     public function show($id)
     {
-        $userSetting = DB::table('usersetting')
+        $userSetting = DB::table('userSetting')
                         ->where('uid', $id)
                         ->first();
 
@@ -24,13 +24,13 @@ class UserSettingController extends Controller
      */
     public static function getUserSettings($id)
     {
-        $result = DB::table('usersetting')
+        $result = DB::table('userSetting')
                     ->where('uid', $id)
                     ->first();
 
         return $result;
     }
-    
+
     /**
      * 设置用户设置内容
      * @param int $id 用户 ID
@@ -38,22 +38,22 @@ class UserSettingController extends Controller
     public function setUserSettings(Request $request, $id)
     {
     	$this->isNotNull(array(
-    			'translation'	=> $request->input('translation'),
-    			'article'		=> $request->input('article'),
-    			'review'		=> $request->input('review'),
-    			'result'		=> $request->input('result'),
-    			'id'		=> $id
+          'newtranslation'  => $request->input('newtranslation'),
+          'newarticle'      => $request->input('newarticle'),
+          'newreview'       => $request->input('newreview'),
+          'newresult'       => $request->input('newresult'),
+          'id'              => $id
     		));
 
     	$data = array(
-                'newtranslation'    => $request->input('translation'),
-                'newarticle'        => $request->input('article'),
-                'newreview'         => $request->input('review'),
-                'newresult'         => $request->input('result'),
+                'newtranslation'    => $request->input('newtranslation'),
+                'newarticle'        => $request->input('newarticle'),
+                'newreview'         => $request->input('newreview'),
+                'newresult'         => $request->input('newresult'),
                 'udate'             => date("Y-m-d H:i:s")
     		);
 
-    	$res = DB::table('usersetting')
+    	$res = DB::table('userSetting')
     			->where('uid', $id)
     			->update($data);
 
@@ -82,7 +82,7 @@ class UserSettingController extends Controller
                 'cdate'             => date("Y-m-d H:i:s")
             );
 
-        $res = DB::table('usersetting')->insert($data);
+        $res = DB::table('userSetting')->insert($data);
 
         return $res;
     }

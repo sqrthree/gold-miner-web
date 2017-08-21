@@ -1,4 +1,3 @@
-import union from 'lodash/union'
 import assign from 'lodash/assign'
 import * as user from '@/services/users'
 
@@ -20,7 +19,7 @@ const getters = {
 const mutations = {
   /**
    * 用户登录后，将其标记为登录状态
-   * @param  {Object} payload 登录的用户信息
+   * @param {Object} payload 登录的用户信息
    */
   login(state, payload) {
     if (!state.data[payload.id]) {
@@ -37,7 +36,7 @@ const mutations = {
 
   /**
    * 用户退出后，将其标记为未登录状态
-   * @param  {Object} payload 用户信息
+   * @param {Object} payload 用户信息
    */
   logout(state) {
     assign(state.oAuth, {
@@ -49,21 +48,12 @@ const mutations = {
 
   /**
    * 将用户信息更新至 store
-   * @param  {Array} payload 需要更新的用户信息
+   * @param {Object} payload 需要更新的用户信息
    */
-  updateUsers(state, payload) {
-    if (!Array.isArray(payload)) throw new Error('payload is not an Array')
-    if (!payload.length) return
-
-    const idList = payload.map(item => item.id)
-    const data = {}
-
-    payload.forEach((item) => {
-      data[item.id] = item
+  updateUserInfo(state, payload) {
+    state.data = assign({}, state.data, {
+      [payload.id]: payload,
     })
-
-    state.id = union(state.id, idList)
-    state.data = assign({}, state.data, data)
   },
 }
 
@@ -96,6 +86,18 @@ const actions = {
     return user.logout().then(() => {
       context.commit('logout')
       context.commit('hideLoading')
+    })
+  },
+
+  /**
+   * 将用户信息更新至 store
+   * @param  {Number} id 需要更新的用户 id
+   * @return Promise
+   */
+  fetchUserInfo(context, id) {
+    return user.fetchUserInfo(id).then((data) => {
+      context.commit('updateUserInfo', data)
+      return data
     })
   },
 }

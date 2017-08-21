@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 const store = require('store')
 
@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     ...mapMutations(['login']),
+    ...mapActions(['fetchUserInfo']),
   },
   created() {
     let user = null
@@ -57,6 +58,10 @@ export default {
       } else {
         this.$router.replace('/applications/apply')
       }
+    } else {
+      this.fetchUserInfo(user.id).then((data) => {
+        store.set('user', data)
+      }).catch(err => this.$message.error(err.message))
     }
   },
 }

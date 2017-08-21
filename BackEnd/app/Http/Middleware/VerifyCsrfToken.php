@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
 class VerifyCsrfToken extends BaseVerifier
@@ -16,12 +17,12 @@ class VerifyCsrfToken extends BaseVerifier
         "translations/pr"
     ];
 
-    public function handle($request, \Closure $next)
+    public function handle($request, Closure $next)
     {
     	if ($request->getClientIP() == "127.0.0.1") {
             return $next($request);
     	}
-
-    	parent::handle($request, $next);
+      
+    	return parent::handle($request, $next);
     }
 }
