@@ -1,0 +1,29 @@
+<mjml>
+  <mj-body>
+    <mj-container>
+      <mj-section>
+        <mj-column>
+          <mj-image width="100" src="https://gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg"></mj-image>
+
+          <mj-divider border-color="#007fff"></mj-divider>
+
+          <mj-text align="center" font-size="14px" color="#007fff" font-family="helvetica">欢迎加入掘金翻译计划，与上百位的贡献者一起将最新的优质技术内容引入中国。</mj-text>
+
+          <mj-button background-color="#007fff" href="http://fanyi.juejin.im/applications/apply?invitation-code={{$invitationCode}}">立即激活身份</mj-button>
+          <mj-spacer height="100px" />
+        </mj-column>
+      </mj-section>
+
+      <mj-navbar background-color="#007fff">
+        <mj-column>
+          <mj-inline-links base-url=""  hamburger="hamburger">
+            <mj-link href="http://fanyi.juejin.im/" color="#ffffff">官方网站</mj-link>
+            <mj-link href="https://github.com/xitu/gold-miner/" color="#ffffff">GitHub</mj-link>
+            <mj-link href="https://github.com/xitu/gold-miner/wiki/%E5%8D%81%E4%B8%87%E4%B8%AA%E4%B8%BA%E4%BB%80%E4%B9%88" color="#ffffff">帮助中心</mj-link>
+            <mj-link href="http://weibo.com/juejinfanyi" color="#ffffff">官方微博</mj-link>
+          </mj-inline-links>
+        </mj-column>
+      </mj-navbar>
+    </mj-container>
+  </mj-body>
+</mjml>

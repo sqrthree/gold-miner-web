@@ -1,0 +1,51 @@
+<mjml>
+  <mj-body>
+    <mj-container>
+      <mj-section>
+        <mj-column>
+          <mj-image width="100" src="https://gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg"></mj-image>
+
+          <mj-divider border-color="#007fff"></mj-divider>
+
+          <mj-text align="center" font-size="14px" color="#007fff" font-family="helvetica">欢迎加入掘金翻译计划，与上百位的贡献者一起将最新的优质技术内容引入中国。</mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section padding-bottom="0" background-color="#fcfcfc">
+        <mj-column width="100%">
+          <mj-text align="center" font-size="20" color="grey" font-family="Helvetica Neue" font-weight="200">
+            快来看看有哪些感兴趣的文章吧
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <!-- Article -->
+
+      <mj-section background-color="white">
+        <mj-column width="130">
+          <mj-image src="https://mjml.io/assets/img/responsive.png" width="100" />
+        </mj-column>
+        <mj-column width="350">
+          <mj-text align="left" font-size="20" color="grey">
+            深度学习的未来（我是文章标题）
+          </mj-text>
+          <mj-text align="left" color="grey">
+            鉴于我们已经了解深度神经网的工作原理、局限性以及目前的研究现状，那我们能够预测它未来的趋势吗？这里给出一些纯粹的个人想法。（我是文章描述）
+          </mj-text>
+          <mj-button padding="0px" align="left" color="#007fff" background-color="white" href=
+          "http://fanyi.juejin.im/">查看详情</mj-button>
+        </mj-column>
+      </mj-section>
+
+      <mj-navbar background-color="#007fff">
+        <mj-column>
+          <mj-inline-links base-url=""  hamburger="hamburger">
+            <mj-link href="http://fanyi.juejin.im/" color="#ffffff">官方网站</mj-link>
+            <mj-link href="https://github.com/xitu/gold-miner/" color="#ffffff">GitHub</mj-link>
+            <mj-link href="https://github.com/xitu/gold-miner/wiki/%E5%8D%81%E4%B8%87%E4%B8%AA%E4%B8%BA%E4%BB%80%E4%B9%88" color="#ffffff">帮助中心</mj-link>
+            <mj-link href="http://weibo.com/juejinfanyi" color="#ffffff">官方微博</mj-link>
+          </mj-inline-links>
+        </mj-column>
+      </mj-navbar>
+    </mj-container>
+  </mj-body>
+</mjml>
