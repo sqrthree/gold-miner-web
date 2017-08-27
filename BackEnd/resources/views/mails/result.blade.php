@@ -188,6 +188,7 @@
         <tr>
           <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
       <![endif]-->
+    @if ($article->result == 1)
     <div style="margin:0px auto;max-width:600px;">
       <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
         <tbody>
@@ -208,7 +209,7 @@
                     </tr>
                     <tr>
                       <td style="word-wrap:break-word;background:#d4edda;font-size:0px;padding:10px 25px;" align="center" background="#d4edda">
-                        <div style="cursor:auto;color:#155724;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你推荐的文章《》已经通过啦。</div>
+                        <div style="cursor:auto;color:#155724;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你推荐的文章《{{$article->title}}》已经通过啦。</div>
                       </td>
                     </tr>
                     <tr>
@@ -227,14 +228,7 @@
         </tbody>
       </table>
     </div>
-    <!--[if mso | IE]>
-      </td></tr></table>
-      <![endif]-->
-    <!--[if mso | IE]>
-      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;">
-        <tr>
-          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-      <![endif]-->
+    @else
     <div style="margin:0px auto;max-width:600px;">
       <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
         <tbody>
@@ -255,7 +249,7 @@
                     </tr>
                     <tr>
                       <td style="word-wrap:break-word;background:#f8d7da;font-size:0px;padding:10px 25px;" align="center" background="#f8d7da">
-                        <div style="cursor:auto;color:#721c24;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你推荐的文章《》暂未通过，因为，请再接再厉。</div>
+                        <div style="cursor:auto;color:#721c24;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你推荐的文章《{{$article->title}}》暂未通过，因为，请再接再厉。</div>
                       </td>
                     </tr>
                     <tr>
@@ -274,6 +268,7 @@
         </tbody>
       </table>
     </div>
+    @endif
     <!--[if mso | IE]>
       </td></tr></table>
       <![endif]-->

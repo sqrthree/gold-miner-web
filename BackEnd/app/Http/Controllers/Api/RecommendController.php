@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\MailController as Mail;
 
 class RecommendController extends Controller
 {
@@ -15,7 +16,6 @@ class RecommendController extends Controller
      */
     public function index(Request $request)
     {
-        //
         if (intval($request->input('status')) > 2) {
             header("HTTP/1.1 400 Bad request!");
             echo json_encode(['message' => '参数错误！']);
@@ -36,16 +36,6 @@ class RecommendController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * 添加推荐文章记录
      * @param  int      $category       文章分类（对应 category 表）
      * @param  string   $title          文章标题
@@ -56,7 +46,6 @@ class RecommendController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $this->isNotNull(array(
                 'category'      => $request->input('category'),
                 'title'         => $request->input('title'),
@@ -97,7 +86,6 @@ class RecommendController extends Controller
      */
     public function show($id)
     {
-        //
         $recommend = DB::table('recommend')
                         ->join('user', 'recommend.recommender', '=', 'user.id')
                         ->select('recommend.*', 'user.name as recommenderName')
@@ -114,17 +102,6 @@ class RecommendController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * 更新推荐文章记录
      * @param  int      $category       文章分类（对应 category 表）
      * @param  string   $title          文章标题
@@ -136,7 +113,6 @@ class RecommendController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         $status = DB::table('recommend')
                     ->where('id', $id)
                     ->value('status');
@@ -180,23 +156,12 @@ class RecommendController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
      * 更新文章处理结果
      * @param  int      $id     文章 ID
      * @param  boolean  $result 推荐结果，true 为通过，false 为未通过
      * @return json_encode(Array)
      */
-    public function result($id, $result = true)
+    public function result(Mail $mail, $id, $result = true)
     {
         if (!is_numeric($id)) {
             header("HTTP/1.1 400 Bad request");
@@ -231,6 +196,7 @@ class RecommendController extends Controller
                 ->value('recommender');
 
         UserController::incrementRecommend($uid);
+        $mail->result($id);
         $this->retrieve($id);
     }
 
@@ -239,7 +205,7 @@ class RecommendController extends Controller
      * @param  int $rid 推荐文章 ID
      * @return boolean  
      */
-    public function retrieve($rid)
+    protected function retrieve($rid)
     {
         $params = DB::table('recommend')
                     ->join('category', 'recommend.category', '=', 'category.id')
