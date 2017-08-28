@@ -166,4 +166,33 @@ class ApplicantController extends Controller
     {
         //
     }
+
+    public function checkInvitation(Request $request)
+    {
+        $this->isNotNull(array(
+            "uid"   => $request->input("uid"),
+            "code"  => $request->input("code")
+        ));
+
+        $applicant = DB::table("applicant")
+                        ->select("id", "email", "invitation")
+                        ->where("invitation", $request->input("code"))
+                        ->first();
+
+        if ($applicant == null || strpos($request->input("code"), ":expired")) {
+            header("HTTP/1.1 400 Bad request");
+            echo json_encode(["message" => "邀请码不合法！"]);
+            return;
+        }
+
+        DB::transaction(function () {
+            global $request;
+            DB::table("user")
+                ->where("id", $request->input("uid"))
+                ->update(["translator" => 1, "udate" => date("Y-m-d H:i:s")]);
+            DB::table("applicant")
+                ->where("invitation", $request->input("code"))
+                ->update(["invitation" => $request->input("code").":expired", "udate" => date("Y-m-d H:i:s")]);
+        });
+    }
 }

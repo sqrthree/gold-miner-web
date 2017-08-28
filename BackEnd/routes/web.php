@@ -21,6 +21,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => 'token'],
 	Route::resource('categories', 'CategoryController');
 	// 申请译者相关
 	Route::resource('applicants', 'ApplicantController');
+	Route::post('applicants/check', 'ApplicantController@checkInvitation');
 	// 推荐文章相关
 	Route::put('recommends/result/{id}/{result}', 'RecommendController@result');
 	Route::resource('recommends', 'RecommendController');
