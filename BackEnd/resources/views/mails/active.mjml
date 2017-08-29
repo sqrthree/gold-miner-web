@@ -8,8 +8,10 @@
           <mj-divider border-color="#007fff"></mj-divider>
 
           <mj-text align="center" font-size="14px" color="#007fff" font-family="helvetica">欢迎加入掘金翻译计划，与上百位的贡献者一起将最新的优质技术内容引入中国。</mj-text>
-
           <mj-button background-color="#007fff" href="http://fanyi.juejin.im/applications/apply?invitation-code={{$invitationCode}}">立即激活身份</mj-button>
+
+          <mj-spacer height="100px" />
+          <mj-text align="center" font-size="14px" color="#721c24" container-background-color="#f8d7da" font-family="helvetica">你的申请暂未通过，请再接再厉。</mj-text>
           <mj-spacer height="100px" />
         </mj-column>
       </mj-section>

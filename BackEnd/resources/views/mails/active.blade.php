@@ -169,6 +169,7 @@
                         <div style="cursor:auto;color:#007fff;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">欢迎加入掘金翻译计划，与上百位的贡献者一起将最新的优质技术内容引入中国。</div>
                       </td>
                     </tr>
+                    @if ($invitationCode)
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center">
                         <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0">
@@ -186,6 +187,18 @@
                         <div style="font-size:1px;line-height:100px;white-space:nowrap;"> </div>
                       </td>
                     </tr>
+                    @else
+                    <tr>
+                      <td style="word-wrap:break-word;background:#f8d7da;font-size:0px;padding:10px 25px;" align="center" background="#f8d7da">
+                        <div style="cursor:auto;color:#721c24;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你的申请暂未通过，请再接再厉。</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="word-wrap:break-word;font-size:0px;">
+                        <div style="font-size:1px;line-height:100px;white-space:nowrap;"> </div>
+                      </td>
+                    </tr>
+                    @endif
                   </tbody>
                 </table>
               </div>
@@ -222,9 +235,9 @@
                       <td style="word-wrap:break-word;font-size:0px;" align="center">
                         <div>
                           <!--[if !mso]><!-->
-                          <input type="checkbox" id="f23541995fb8cec4" class="mj-menu-checkbox" style="display:none !important; max-height:0; visibility:hidden;">
+                          <input type="checkbox" id="6f0bb374a057b55b" class="mj-menu-checkbox" style="display:none !important; max-height:0; visibility:hidden;">
                           <!--<![endif]-->
-                          <div class="mj-menu-trigger" style="display:none;max-height:0px;max-width:0px;font-size:0px;overflow:hidden;"><label for="f23541995fb8cec4" class="mj-menu-label" style="display:block;cursor:pointer;mso-hide:all;-moz-user-select:none;user-select:none;text-align:center;color:#000000;font-size:30px;font-family:Ubuntu, Helvetica, Arial, sans-serif;text-transform:uppercase;text-decoration:none;line-height:30px;padding-top:10px;padding-left:10px;padding-right:10px;padding-bottom:10px;"><span class="mj-menu-icon-open" style="mso-hide:all;">☰</span><span class="mj-menu-icon-close" style="display:none;mso-hide:all;">⊗</span></label></div>
+                          <div class="mj-menu-trigger" style="display:none;max-height:0px;max-width:0px;font-size:0px;overflow:hidden;"><label for="6f0bb374a057b55b" class="mj-menu-label" style="display:block;cursor:pointer;mso-hide:all;-moz-user-select:none;user-select:none;text-align:center;color:#000000;font-size:30px;font-family:Ubuntu, Helvetica, Arial, sans-serif;text-transform:uppercase;text-decoration:none;line-height:30px;padding-top:10px;padding-left:10px;padding-right:10px;padding-bottom:10px;"><span class="mj-menu-icon-open" style="mso-hide:all;">☰</span><span class="mj-menu-icon-close" style="display:none;mso-hide:all;">⊗</span></label></div>
                           <div
                             class="mj-inline-links" style="width:100%;text-align:center;">
                             <!--[if gte mso 9]>
