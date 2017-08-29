@@ -161,7 +161,7 @@ class RecommendController extends Controller
      * @param  boolean  $result 推荐结果，true 为通过，false 为未通过
      * @return json_encode(Array)
      */
-    public function result(Mail $mail, $id, $result = true)
+    public function result(Request $request, $id, Mail $mail)
     {
         if (!is_numeric($id)) {
             header("HTTP/1.1 400 Bad request");
@@ -170,10 +170,12 @@ class RecommendController extends Controller
         }
 
         $data = array(
-                'status' => 1
+                'comment'   => $request->input('opinion'),
+                'status'    => 1,
+                'udate'     => date('Y-m-d H:i:s')
             );
 
-        if ($result == false) {
+        if ($request->input('result') == false) {
             $data['status'] = 2;
         }
 
@@ -187,6 +189,8 @@ class RecommendController extends Controller
             return;
         }
 
+        $mail->result($id);
+        
         if ( $data['status'] == 2) {
             return;
         }
@@ -196,7 +200,6 @@ class RecommendController extends Controller
                 ->value('recommender');
 
         UserController::incrementRecommend($uid);
-        $mail->result($id);
         $this->retrieve($id);
     }
 

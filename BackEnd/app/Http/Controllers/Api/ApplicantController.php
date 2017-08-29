@@ -113,17 +113,26 @@ class ApplicantController extends Controller
      */
     public function update(Request $request, $id, Mail $mail)
     {
-        $data = array( 'udate' => date('Y-m-d H:i:s') );
+        if (!is_numeric($id)) {
+            header("HTTP/1.1 400 Bad request");
+            echo json_encode(['message' => '参数错误！']);
+            return;
+        }
+
+        $data = array(
+                'comment'   => $request->input('opinion'),
+                'status'    => 1,
+                'udate'     => date('Y-m-d H:i:s')
+            );
+
         if ( $request->input('result') == true ) {
             $data['invitation'] = $this->generateToken($id);
-            $data['status'] = 1;
         } else {
             $data['status'] = 2;
         }
 
         $result = DB::table('applicant')
                     ->where('id', $id)
-                    ->select('id', '')
                     ->update($data);
 
         if($result === false){
