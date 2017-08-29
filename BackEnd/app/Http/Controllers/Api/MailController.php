@@ -49,11 +49,12 @@ class MailController extends Controller
     public function activate($id)
     {
         $applicant = DB::table('applicant')
-                        ->select('email', 'invitation')
+                        ->select('email', 'invitation', 'comment as reason')
                         ->where('id', $id)
                         ->first();
 
-        echo $this->sendMail($applicant->email, "欢迎加入掘金翻译计划！", view("mails/active", ['invitationCode' => $applicant->invitation])->render());
+        $subject = $applicant->invitation ? "欢迎加入掘金翻译计划！" : "很遗憾，您没有通过我们的审核！";
+        echo $this->sendMail($applicant->email, $subject, view("mails/active", ['invitationCode' => $applicant->invitation])->render());
     }
 
     public function notify()
@@ -69,10 +70,10 @@ class MailController extends Controller
     {
         $article = DB::table('recommend')
                     ->join('user', 'recommend.recommender', '=', 'user.id')
-                    ->select('recommend.title', 'recommend.status as result', 'user.email')
+                    ->select('recommend.title', 'recommend.status as result', 'user.email', 'recommend.comment as reason')
                     ->where('recommend.id', $id)
                     ->first();
-
-        echo $this->sendMail($article->email, "您推荐文章已经通过啦！", view("mails/result", ['article' => $article])->render());
+        $subject = ($article->result == 1) ? "您推荐文章已经通过啦！" : "很遗憾，您推荐的文章未通过审核。";
+        echo $this->sendMail($article->email, $subject, view("mails/result", ['article' => $article])->render());
     }
 }
