@@ -249,7 +249,7 @@
                     </tr>
                     <tr>
                       <td style="word-wrap:break-word;background:#f8d7da;font-size:0px;padding:10px 25px;" align="center" background="#f8d7da">
-                        <div style="cursor:auto;color:#721c24;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你推荐的文章《{{$article->title}}》暂未通过，因为，请再接再厉。</div>
+                        <div style="cursor:auto;color:#721c24;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你推荐的文章《{{$article->title}}》暂未通过，因为{{$article->reason}}，请再接再厉。</div>
                       </td>
                     </tr>
                     <tr>
