@@ -112,16 +112,7 @@ const actions = {
    * @return {Promise}
    */
   submitApplication(context, payload) {
-    context.commit('showLoading')
-
-    return applications.submitApplication(payload).then((response) => {
-      context.commit('hideLoading')
-      return Promise.resolve(response)
-    }).catch((err) => {
-      context.commit('hideLoading')
-
-      return Promise.reject(err)
-    })
+    return applications.submitApplication(payload).then(response => Promise.resolve(response))
   },
 
   /**

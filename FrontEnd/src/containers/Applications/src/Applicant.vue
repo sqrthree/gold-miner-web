@@ -23,7 +23,7 @@
         <h4>译文</h4>
         <p class="text">{{ applicantInfo.translation }}</p>
       </section>
-      <section class="section">
+      <section class="section" v-loading="loading" element-loading-text="拼命请求中">
         <h4 class="section__title">审核意见</h4>
         <el-table class="opinions" v-if="applicantInfo.opinions && applicantInfo.opinions.length" :data="applicantInfo.opinions" border>
           <el-table-column prop="result" label="审核结果">
@@ -55,6 +55,7 @@ export default {
   data() {
     return {
       opinion: '',
+      loading: false,
     }
   },
   computed: {
@@ -70,10 +71,19 @@ export default {
     submitOpinion(result) {
       if (!result && !this.opinion) return this.$message({ message: '留一下意见了啦~', type: 'warning' })
 
+      this.loading = true
+
       return this.$store.dispatch('submitOpinionOfApplications', {
         id: this.applicantId,
         result,
         opinion: this.opinion,
+      }).then(() => {
+        this.$message.success('提交成功')
+        this.loading = false
+        this.$router.replace('/applications/applicants')
+      }).catch((err) => {
+        this.$message.error(err.message)
+        this.loading = false
       })
     },
   },
