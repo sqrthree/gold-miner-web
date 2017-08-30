@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     ...mapState(['loading', 'categories']),
-    ...mapGetters(['currentUser']),
+    ...mapGetters(['logIn', 'currentUser']),
   },
   methods: {
     // 提交第一步中的基本信息
@@ -128,13 +128,29 @@ export default {
         }
       })
     },
+    validateInvitationCode(invitationCode) {
+      this.$store.dispatch('validateInvitationCode', {
+        uid: this.currentUser.id,
+        code: invitationCode,
+      }).then(() => {
+        this.$message.success('恭喜你成为了我们的新译者。')
+        this.$router.replace('/')
+      }).catch((err) => {
+        this.$message.error(err.message)
+      })
+    },
   },
   created() {
     let invitationCode = this.$route.query['invitation-code']
 
     // 用户只有点击邀请链接才会以附带邀请码的形式访问该地址，此时应将邀请码
-    // 存储至 localstorage 然后跳转至登录页面
     if (invitationCode) {
+      if (this.logIn) {
+        this.validateInvitationCode(invitationCode)
+        return
+      }
+
+      // 存储至 localstorage 然后跳转至登录页面
       store.set('invitationCode', invitationCode)
       window.location.href = '/auth/login'
       return
@@ -147,17 +163,7 @@ export default {
     if (invitationCode) {
       // 本地存在邀请码，则验证该邀请码是否有效，并从本地删除该邀请码。
       store.remove('invitationCode')
-      this.$store.dispatch('validateInvitationCode', invitationCode).then((response) => {
-        if (response.isValid) {
-          this.$message.success('恭喜你成为了我们的新译者。')
-          this.$router.replace('/')
-        } else {
-          this.$message.error('对不起，该邀请码无效。')
-        }
-      }).catch((err) => {
-        this.$message.error(err.message)
-      })
-
+      this.validateInvitationCode(invitationCode)
       return
     }
 

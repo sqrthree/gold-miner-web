@@ -8,10 +8,8 @@ export const fetchUserInfo = function fetchUserInfo(id) {
   return axios.get(`/api/users/${id}`)
 }
 
-export const validateInvitationCode = function validateInvitationCode(invitationCode) {
-  return axios.post('/api/auth/validate-invitation-code', {
-    invitationCode,
-  })
+export const validateInvitationCode = function validateInvitationCode(payload) {
+  return axios.post('/api/applicants/check', payload)
 }
 
 export const fetchNotifications = function fetchNotifications() {

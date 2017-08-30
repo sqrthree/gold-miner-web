@@ -63,11 +63,11 @@ const actions = {
    * @param  {String} invitationCode 邀请码
    * @return {Promise}
    */
-  validateInvitationCode(context, invitationCode) {
+  validateInvitationCode(context, payload) {
     context.commit('showLoading')
     context.commit('setLoadingText', '我们正在为您开辟专享通道，请稍后。')
 
-    return user.validateInvitationCode(invitationCode).then((response) => {
+    return user.validateInvitationCode(payload).then((response) => {
       context.commit('hideLoading')
       return Promise.resolve(response)
     }).catch((err) => {
