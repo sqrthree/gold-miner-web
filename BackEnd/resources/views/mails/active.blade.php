@@ -182,23 +182,23 @@
                         </table>
                       </td>
                     </tr>
+                    @else
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;">
                         <div style="font-size:1px;line-height:100px;white-space:nowrap;"> </div>
                       </td>
                     </tr>
-                    @else
                     <tr>
                       <td style="word-wrap:break-word;background:#f8d7da;font-size:0px;padding:10px 25px;" align="center" background="#f8d7da">
                         <div style="cursor:auto;color:#721c24;font-family:helvetica;font-size:14px;line-height:22px;text-align:center;">你的申请暂未通过，请再接再厉。</div>
                       </td>
                     </tr>
+                    @endif
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;">
                         <div style="font-size:1px;line-height:100px;white-space:nowrap;"> </div>
                       </td>
                     </tr>
-                    @endif
                   </tbody>
                 </table>
               </div>
