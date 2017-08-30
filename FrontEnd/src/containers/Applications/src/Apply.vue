@@ -136,7 +136,7 @@ export default {
     // 存储至 localstorage 然后跳转至登录页面
     if (invitationCode) {
       store.set('invitationCode', invitationCode)
-      window.location.href = '/api/auth/login'
+      window.location.href = '/auth/login'
       return
     }
 
